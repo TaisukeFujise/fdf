@@ -6,7 +6,7 @@
 #    By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 12:42:52 by tafujise          #+#    #+#              #
-#    Updated: 2025/11/15 09:28:08 by tafujise         ###   ########.fr        #
+#    Updated: 2025/11/15 10:09:41 by tafujise         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LIBFT:=$(LIBFT_DIR)/libft.a
 MLX_DIR:=minilibx-linux
 MLX:=$(MLX_DIR)/libmlx_Linux.a
 
-OBJS:=$(addprefix $(SRCDIR)/, $(SRCS:.c=.o))
+OBJDIR:=objects
+OBJS:=$(addprefix $(OBJDIR)/,$(SRCS:%.c=%.o))
 
 CC:=cc
 
@@ -43,11 +44,12 @@ $(MLX):
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) -lXext -lX11 -lm -lz
 
-%.o: %.c $(HEADERS)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
+	@mkdir -p $(OBJDIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJDIR)
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
