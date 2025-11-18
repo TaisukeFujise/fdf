@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 03:58:28 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/18 23:55:55 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,22 @@ typedef struct s_ctx
 
 /* utils.c */
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int		count_cols_len(char **arr);
 /* init.c */
 int	ctx_init(t_ctx *ctx);
 /* free.c */
 void	free_ctx(t_ctx *ctx);
+void	free_raw_and_cols(char **raw_line, char ***cols);
 /* parse.c */
 int	parse_map(t_ctx *ctx, char *file_path);
 /* hooks.c */
-int	window_close(int keycode, t_ctx *ctx);
+int	window_close(t_ctx *ctx);
+int	esc_close(int keycode, t_ctx *ctx);
 int	press_button(int button, int x, int y, t_ctx *ctx);
 int	release_button(int button, int x, int y, t_ctx *ctx);
 int	button_motion_hook(int x, int y, t_ctx *ctx);
 int	display_hud(t_ctx *ctx);
+/* setup_hooks.c */
+void	setup_hooks(t_ctx *ctx);
 
 #endif

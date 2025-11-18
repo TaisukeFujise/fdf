@@ -6,11 +6,14 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 00:52:53 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 00:52:59 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/18 23:39:58 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+#include <stdio.h>
+
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -20,4 +23,18 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	offset = y * img->line_length + x * (img->bits_per_pixel / 8);
 	dst = img->addr + offset;
 	*(unsigned int *)dst = color;
+}
+
+int	count_cols_len(char **arr)
+{
+	int	i;
+	
+	i = 0;
+	if (arr == NULL)
+		return (i);
+	while (arr[i] != NULL && ft_strcmp(arr[i], "\n") != 0)
+	{
+		i++;
+	}
+	return (i);
 }

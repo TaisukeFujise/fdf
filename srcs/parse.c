@@ -6,18 +6,28 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 22:02:41 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/18 23:40:49 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	get_map_size(t_ctx *ctx, int fd);
-static int	get_line_and_arr(char **line, char ***points, int fd);
-static int	get_map_points(t_ctx *ctx, int fd);
-static int	get_x_and_z(t_ctx *ctx, char **arr);
+static int	parse_map_size(t_ctx *ctx, int fd);
+static int	read_and_split_line(char **raw_line, char ***cols, int fd);
+static int	parse_map_points(t_ctx *ctx, int fd);
 // static unsigned int	hexa_index(char c);
 // static int	read_color(char *color, t_ctx *ctx);
+
+static int	read_and_split_line(char **raw_line, char ***cols, int fd)
+{
+	*raw_line = get_next_line(fd);
+	if (*raw_line == NULL || **raw_line == '\0')
+		return (ERROR);
+	*cols = ft_split(*raw_line, ' ');
+	if (*cols == NULL)
+		return (ERROR);
+	return (SUCCESS);
+}
 
 int	parse_map(t_ctx *ctx, char *file_path)
 {
@@ -26,107 +36,80 @@ int	parse_map(t_ctx *ctx, char *file_path)
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (perror("open"), ERROR);
-	if (get_map_size(ctx, fd) == ERROR)
+	if (parse_map_size(ctx, fd) == ERROR)
 		return (ERROR);
+	close(fd);
+
 	ctx->map.points = malloc((ctx->map.width * ctx->map.height) 
 						* sizeof(t_mappoint));
 	if (!ctx->map.points)
 		return (perror("malloc"), ERROR);
-	close(fd);
+
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (perror("open"), ERROR);
-	if (get_map_points(ctx, fd) == ERROR)
+	if (parse_map_points(ctx, fd) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }
 
-static int	get_map_size(t_ctx *ctx, int fd)
+static int	parse_map_size(t_ctx *ctx, int fd)
 {
 	int	width;
 	int	height;
-	char	*line;
-	char	**arr;
+	char	*raw_line;
+	char	**cols;
 
 	width = 0;
 	height = 0;
-	if (get_line_and_arr(&line, &arr, fd) == ERROR)
-		return (perror("read/malloc"), ERROR);
-	width = ft_arrlen(arr);
-	while (line != NULL && arr != NULL)
+	if (read_and_split_line(&raw_line, &cols, fd) == ERROR)
+		return (perror("read/malloc"),
+				free_raw_and_cols(&raw_line, &cols), ERROR);
+	width = count_cols_len(cols);
+	while (raw_line != NULL && cols != NULL)
 	{
-		if (width != ft_arrlen(arr))
-			return (ft_putstr_fd("Error: found wrong line\n", 1), ERROR);
+		if (width != count_cols_len(cols))
+			return (ft_putstr_fd("Error: found wrong raw_line\n", 1),
+					free_raw_and_cols(&raw_line, &cols), ERROR);
 		height++;
-		if (get_line_and_arr(&line, &arr, fd) == ERROR)
+		if (read_and_split_line(&raw_line, &cols, fd) == ERROR)
 			break;
 	}
 	ctx->map.width = width;
 	ctx->map.height = height;
-	printf("width: %d\n", ctx->map.width);
-	printf("height: %d\n", ctx->map.height);
-	return (SUCCESS);
+	return (free_raw_and_cols(&raw_line, &cols), SUCCESS);
 }
 
-static int	get_line_and_arr(char **line, char ***arr, int fd)
+static int	parse_map_points(t_ctx *ctx, int fd)
 {
-	*line = get_next_line(fd);
-	if (*line == NULL || **line == '\0')
-		return (ERROR);
-	*arr = ft_split(*line, ' ');
-	if (*arr == NULL)
-		return (ERROR);
-	return (SUCCESS);
-}
-
-static int	get_map_points(t_ctx *ctx, int fd)
-{
-	char	*line;
-	char	**arr;
+	char	*raw_line;
+	char	**cols;
+	int		x;
 	int		y;
+	int		i;
 
+	if (read_and_split_line(&raw_line, &cols, fd) == ERROR)
+		return (perror("Error"), free_raw_and_cols(&raw_line, &cols), ERROR);
 	y = 0;
-	line = NULL;
-	arr = NULL;
-	if (get_line_and_arr(line, arr, fd) == ERROR)
-		return (perror("read/malloc"), ERROR);
-	while (line != NULL)
+	i = 0;
+	while (y < ctx->map.height && raw_line != NULL)
 	{
-		ctx->map.points->y = (double)y;
-		if (get_x_and_z(ctx, arr) == ERROR)
-			return (ERROR);
-		if (get_line_and_arr(line, arr, fd) == ERROR)
-			break;
+		x = 0;
+		while (x < ctx->map.width && cols != NULL)
+		{
+			ctx->map.points[i].x = (double)x;
+			ctx->map.points[i].y = (double)y;
+			ctx->map.points[i].z = (double)ft_atoi(cols[x]);
+			i++;
+			x++;
+		}
 		y++;
 	}
 	return (SUCCESS);
 }
 
 /*以下色の取得関連でSVG発生*/
-int	get_x_and_z(t_ctx *ctx, char **arr)
-{
-	int	x;
-	// char	**z_and_color;
 
-	x = 0;
-	while (arr[x] != NULL)
-	{
-		ctx->map.points->x = (double)x;
-		// z_and_color = ft_split(arr[x], ',');
-		// if (!z_and_color)
-		// 	return (perror("malloc"), ERROR);
-		// if (ft_arrlen(z_and_color) == 1)
-		ctx->map.points->z = ft_atoi(arr[x]);
-		// else
-		// {
-		// 	ctx->map.points->z = ft_atoi(z_and_color[0]);
-		// 	if (read_color(z_and_color[1], ctx) == ERROR)
-		// 		return (ERROR);
-		// }
-		x++;
-	}
-	return (SUCCESS);
-}
 
 // unsigned int	hexa_index(char c)
 // {

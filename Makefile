@@ -6,7 +6,7 @@
 #    By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 12:42:52 by tafujise          #+#    #+#              #
-#    Updated: 2025/11/18 01:32:09 by tafujise         ###   ########.fr        #
+#    Updated: 2025/11/18 23:35:26 by tafujise         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCDIR:=srcs
 SRCS:=main.c\
 	free.c\
 	hooks.c\
+	setup_hooks.c\
 	init.c\
 	utils.c\
 	parse.c\

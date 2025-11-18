@@ -6,28 +6,13 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 00:17:37 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/19 00:01:30 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /*hookの終了時には、free_ctxとexit(0)*/
-
-int	window_close(int keycode, t_ctx *ctx)
-{
-	if (keycode == 65307)
-		mlx_destroy_window(ctx->mlx, ctx->win);
-	// if ()
-	return (0);
-}
-
-// int	key_hook(int keycode, t_params *params)
-// {
-// 	(void)params;
-// 	printf("key hook: %d\n", keycode);
-// 	return (0);
-// }
 
 int	press_button(int button, int x, int y, t_ctx *ctx)
 {
@@ -56,6 +41,27 @@ int	button_motion_hook(int x, int y, t_ctx *ctx)
 	}
 	return (0);
 }
+
+int	window_close(t_ctx *ctx)
+{
+	free_ctx(ctx);
+	exit(0);
+	return (0);
+}
+
+int	esc_close(int keycode, t_ctx *ctx)
+{
+	if (keycode == 65307)
+		return(window_close(ctx));
+	return (0);
+}
+
+// int	key_hook(int keycode, t_params *params)
+// {
+// 	(void)params;
+// 	printf("key hook: %d\n", keycode);
+// 	return (0);
+// }
 
 int	display_hud(t_ctx *ctx)
 {
