@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 00:56:38 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/18 03:58:28 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define HEIGHT 1080
 
 # include <mlx.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include "../libft/libft.h"
 
@@ -52,15 +53,14 @@ typedef struct s_mappoint
 	double		y;
 	double		z;
 	uint32_t	color;
-
 	double		screen_x;
 	double		screen_y;
 }	t_mappoint;
 
 typedef struct s_map
 {
-	double		width;
-	double		height;
+	int			width;
+	int			height;
 	t_mappoint	*points;
 }	t_map;
 
@@ -81,11 +81,11 @@ typedef struct s_camera
 
 typedef struct s_ctx
 {
-	void	*mlx;
-	void	*win;
-	t_img	img;
-	t_click	click;
-	t_map	map;
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	t_click		click;
+	t_map		map;
 	t_camera	camera;
 }	t_ctx;
 
@@ -95,6 +95,8 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int	ctx_init(t_ctx *ctx);
 /* free.c */
 void	free_ctx(t_ctx *ctx);
+/* parse.c */
+int	parse_map(t_ctx *ctx, char *file_path);
 /* hooks.c */
 int	window_close(int keycode, t_ctx *ctx);
 int	press_button(int button, int x, int y, t_ctx *ctx);

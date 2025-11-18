@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 09:41:34 by fujisetaisu       #+#    #+#             */
-/*   Updated: 2025/11/05 23:50:34 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/18 19:16:54 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <limits.h>
+
+# define BUFFER_SIZE 100
+
+# define SUCCESS 0
+# define ERROR -1
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -55,5 +60,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+char	*get_next_line(int fd);
+int		ft_arrlen(char **arr);
 
 #endif
