@@ -6,24 +6,24 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 23:40:49 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:57:56 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static int	parse_map_size(t_ctx *ctx, int fd);
-static int	read_and_split_line(char **raw_line, char ***cols, int fd);
+static int	read_and_split_line(char **row_line, char ***cols, int fd);
 static int	parse_map_points(t_ctx *ctx, int fd);
 // static unsigned int	hexa_index(char c);
 // static int	read_color(char *color, t_ctx *ctx);
 
-static int	read_and_split_line(char **raw_line, char ***cols, int fd)
+static int	read_and_split_line(char **row_line, char ***cols, int fd)
 {
-	*raw_line = get_next_line(fd);
-	if (*raw_line == NULL || **raw_line == '\0')
+	*row_line = get_next_line(fd);
+	if (*row_line == NULL || **row_line == '\0')
 		return (ERROR);
-	*cols = ft_split(*raw_line, ' ');
+	*cols = ft_split(*row_line, ' ');
 	if (*cols == NULL)
 		return (ERROR);
 	return (SUCCESS);
@@ -57,53 +57,53 @@ static int	parse_map_size(t_ctx *ctx, int fd)
 {
 	int	width;
 	int	height;
-	char	*raw_line;
+	char	*row_line;
 	char	**cols;
 
 	width = 0;
 	height = 0;
-	if (read_and_split_line(&raw_line, &cols, fd) == ERROR)
+	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 		return (perror("read/malloc"),
-				free_raw_and_cols(&raw_line, &cols), ERROR);
+				free_row_and_cols(&row_line, &cols), ERROR);
 	width = count_cols_len(cols);
-	while (raw_line != NULL && cols != NULL)
+	while (row_line != NULL && cols != NULL)
 	{
 		if (width != count_cols_len(cols))
-			return (ft_putstr_fd("Error: found wrong raw_line\n", 1),
-					free_raw_and_cols(&raw_line, &cols), ERROR);
+			return (ft_putstr_fd("Error: found wrong row_line\n", 1),
+					free_row_and_cols(&row_line, &cols), ERROR);
 		height++;
-		if (read_and_split_line(&raw_line, &cols, fd) == ERROR)
+		if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 			break;
 	}
 	ctx->map.width = width;
 	ctx->map.height = height;
-	return (free_raw_and_cols(&raw_line, &cols), SUCCESS);
+	return (free_row_and_cols(&row_line, &cols), SUCCESS);
 }
 
 static int	parse_map_points(t_ctx *ctx, int fd)
 {
-	char	*raw_line;
+	char	*row_line;
 	char	**cols;
-	int		x;
-	int		y;
+	int		col;
+	int		row;
 	int		i;
 
-	if (read_and_split_line(&raw_line, &cols, fd) == ERROR)
-		return (perror("Error"), free_raw_and_cols(&raw_line, &cols), ERROR);
-	y = 0;
+	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
+		return (perror("Error"), free_row_and_cols(&row_line, &cols), ERROR);
+	row = 0;
 	i = 0;
-	while (y < ctx->map.height && raw_line != NULL)
+	while (row < ctx->map.height && row_line != NULL)
 	{
-		x = 0;
-		while (x < ctx->map.width && cols != NULL)
+		col = 0;
+		while (col < ctx->map.width && cols != NULL)
 		{
-			ctx->map.points[i].x = (double)x;
-			ctx->map.points[i].y = (double)y;
-			ctx->map.points[i].z = (double)ft_atoi(cols[x]);
+			ctx->map.points[i].x = (double)col;
+			ctx->map.points[i].z = (double)row;
+			ctx->map.points[i].y = (double)ft_atoi(cols[col]);
 			i++;
-			x++;
+			col++;
 		}
-		y++;
+		row++;
 	}
 	return (SUCCESS);
 }

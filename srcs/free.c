@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:33:01 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 22:42:21 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:56:06 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_ctx(t_ctx *ctx)
 	}
 }
 
-void	free_raw_and_cols(char **raw_line, char ***cols)
+void	free_row_and_cols(char **row_line, char ***cols)
 {
 	int	i;
 
@@ -42,9 +42,9 @@ void	free_raw_and_cols(char **raw_line, char ***cols)
 		free(*cols);
 		*cols = NULL;
 	}
-	if (*raw_line != NULL)
+	if (*row_line != NULL)
 	{
-		free(*raw_line);
-		*raw_line = NULL;
+		free(*row_line);
+		*row_line = NULL;
 	}
 }

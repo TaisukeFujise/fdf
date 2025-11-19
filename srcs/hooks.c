@@ -6,24 +6,62 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/19 00:01:30 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/19 19:59:32 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*hookの終了時には、free_ctxとexit(0)*/
-
-int	press_button(int button, int x, int y, t_ctx *ctx)
+int	key_press(int keycode, t_ctx *ctx)
 {
-	(void)button;
-	ctx->click.is_pressed = 1;
-	ctx->click.last_x = x;
-	ctx->click.last_y = y;
+	t_mode	cur_mode;
+
+	if (keycode == 65361)
+		ctx->camera.offset_x -= 1;
+	else if (keycode == 65362)
+		ctx->camera.offset_y -= 1;
+	else if (keycode == 65363)
+		ctx->camera.offset_x += 1;
+	else if (keycode == 65364)
+		ctx->camera.offset_y += 1;
+	if (keycode == 32)
+	{
+		cur_mode = ctx->camera.mode;
+		if (cur_mode == CON)
+			ctx->camera.mode = ISO;
+		else
+			ctx->camera.mode++;
+	}
+	if (keycode == 65307)
+		return(window_close(ctx));
 	return (0);
 }
 
-int	release_button(int button, int x, int y, t_ctx *ctx)
+int	button_press(int button, int x, int y, t_ctx *ctx)
+{
+	if (button == 1)
+	{
+		ctx->click.is_pressed = 1;
+		ctx->click.last_x = x;
+		ctx->click.last_y = y;
+	}
+	if (button == 2)
+	{
+		ctx->camera.zoom.lock *= -1;
+	}
+	else if ((ctx->camera.zoom.lock == -1) && (button == 4 || button == 5))
+	{
+		ctx->camera.zoom.cursor_x = x;
+		ctx->camera.zoom.cursor_y = y;
+		if (button == 4)
+			ctx->camera.zoom.ratio *= 1.1;
+		else
+			ctx->camera.zoom.ratio *= 0.9;
+	}
+	return (0);
+}
+
+int	button_release(int button, int x, int y, t_ctx *ctx)
 {
 	(void)button;
 	(void)x;
@@ -32,12 +70,21 @@ int	release_button(int button, int x, int y, t_ctx *ctx)
 	return (0);
 }
 
-int	button_motion_hook(int x, int y, t_ctx *ctx)
+int	button_motion(int x, int y, t_ctx *ctx)
 {
+	int	dx;
+	int	dy;
+	double	sensitivity;
+
+	sensitivity = 0.1;
 	if (ctx->click.is_pressed == 1)
 	{
-		printf("===motion===\n");
-		printf("button position: (%d, %d)\n", x, y);
+		dx = x - ctx->click.last_x;
+		dy = -(y - ctx->click.last_y);
+		ctx->camera.rot_x = (double)dy * sensitivity;
+		ctx->camera.rot_y = (double)dx * sensitivity;
+		if (ctx->camera.mode == ISO)
+			ctx->camera.mode = PAR;
 	}
 	return (0);
 }
@@ -49,23 +96,3 @@ int	window_close(t_ctx *ctx)
 	return (0);
 }
 
-int	esc_close(int keycode, t_ctx *ctx)
-{
-	if (keycode == 65307)
-		return(window_close(ctx));
-	return (0);
-}
-
-// int	key_hook(int keycode, t_params *params)
-// {
-// 	(void)params;
-// 	printf("key hook: %d\n", keycode);
-// 	return (0);
-// }
-
-int	display_hud(t_ctx *ctx)
-{
-	mlx_string_put(ctx->mlx, ctx->win, 100, 70, 0xFFFFFF, "projection mode:");
-	// mlx_string_put(ctx->mlx, ctx->win, 0, 0, 0xFFFFFF, params->hud->projection_mode);
-	return (0);
-}
