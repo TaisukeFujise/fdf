@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:18:23 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 02:28:56 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:52:10 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	_z_buffer_init(t_ctx *ctx)
 	i = 0;
 	while (i < WIDTH * HEIGHT)
 	{
-		ctx->z_buf[i] = DBL_MAX;
+		ctx->z_buf[i] = -DBL_MAX;
 		i++;
 	}
 	return (SUCCESS);

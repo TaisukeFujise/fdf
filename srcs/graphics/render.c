@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 02:29:05 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:52:21 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	_clear_image(t_ctx *ctx)
 		i = 0;
 		while (i < WIDTH * HEIGHT)
 		{
-			ctx->z_buf[i] = DBL_MAX;
+			ctx->z_buf[i] = -DBL_MAX;
 			i++;
 		}
 	}

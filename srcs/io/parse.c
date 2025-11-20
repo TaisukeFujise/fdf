@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 02:23:24 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:35:31 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	parse_map(t_ctx *ctx, char *file_path)
 	if (fd == -1)
 		return (perror("open"), ERROR);
 	if (parse_map_size(ctx, fd) == ERROR)
-		return (ERROR);
+		return (close(fd), ERROR);
 	close(fd);
 
 	ctx->map.points = malloc((ctx->map.width * ctx->map.height) 
@@ -40,18 +40,18 @@ int	parse_map(t_ctx *ctx, char *file_path)
 	if (fd == -1)
 		return (perror("open"), ERROR);
 	if (parse_map_points(ctx, fd) == ERROR)
-		return (ERROR);
-	return (SUCCESS);
+		return (close(fd), ERROR);
+	return (close(fd), SUCCESS);
 }
 
 static int	read_and_split_line(char **row_line, char ***cols, int fd)
 {
 	*row_line = get_next_line(fd);
 	if (*row_line == NULL || **row_line == '\0')
-		return (ERROR);
+		return (get_next_line(-1), ERROR);
 	*cols = ft_split(*row_line, ' ');
 	if (*cols == NULL)
-		return (ERROR);
+		return (get_next_line(-1), ERROR);
 	return (SUCCESS);
 }
 
@@ -101,14 +101,17 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 		{
 			ctx->map.points[i].x = (double)col;
 			ctx->map.points[i].z = (double)row;
-			parse_height_color(&ctx->map.points[i], cols[col]);
+			if (parse_height_color(&ctx->map.points[i], cols[col]) == ERROR)
+				return (perror("Error"), free_row_and_cols(&row_line, &cols), ERROR);
 			i++;
 			col++;
 		}
 		row++;
+		free_row_and_cols(&row_line, &cols);
 		if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 			break;
 	}
+	free_row_and_cols(&row_line, &cols);
 	return (SUCCESS);
 }
 
@@ -125,12 +128,10 @@ static int	parse_height_color(t_mappoint *point, char *col)
 	point->y = (double)((-1) * ft_atoi(height));
 	height_color++;
 	if (height_color == NULL)
-		point->color = 0xFFFFFF;
+		color = "0xFFFFFF";
 	else
-	{
 		color = *height_color;
-		point->color = ft_atoui32_hex(color);
-	}
+	point->color = ft_atoui32_hex(color);
 	return (SUCCESS);
 }
 

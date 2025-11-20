@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 02:30:02 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:29:56 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color)
 	if ((0 <= dot[0] && dot[0] < WIDTH) && (0 <= dot[1] && dot[1] < HEIGHT))
 	{
 		index = dot[1] * WIDTH + dot[0];
-		if (ctx->z_buf[index] < z_curr)
+		if (ctx->z_buf[index] >= z_curr)
 			return ; 
 		offset = dot[1] * ctx->img.line_length + dot[0] * (ctx->img.bits_per_pixel / 8);
 		dst = ctx->img.addr + offset;
@@ -101,24 +101,39 @@ void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 
 int	display_hud(t_ctx *ctx)
 {
-	char	*str;
+	char	*mode;
+	char	*zoom;
+	char	*rot_x;
+	char	*rot_y;
 
 	if (ctx->camera.mode == ISO)
-		str = "Isometric";
+		mode = "Isometric";
 	else if (ctx->camera.mode == PAR)
-		str = "Parallel";
+		mode = "Parallel";
 	else
-		str = "Conic";
+		mode = "Conic";
 	mlx_string_put(ctx->mlx, ctx->win, 30, 30, 0xFFFFFF, "==Parameters==");
 	mlx_string_put(ctx->mlx, ctx->win, 30, 50, 0xFFFFFF, "Projection mode : ");
-	mlx_string_put(ctx->mlx, ctx->win, 150, 50, 0xFFFFFF, str);
+	mlx_string_put(ctx->mlx, ctx->win, 150, 50, 0xFFFFFF, mode);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 70, 0xFFFFFF, "Zoom : ");
-	mlx_string_put(ctx->mlx, ctx->win, 160, 70, 0xFFFFFF, str=ft_itoa((int)ctx->camera.zoom));
+	zoom = ft_itoa((int)ctx->camera.zoom);
+	if (!zoom)
+		return (ERROR);
+	mlx_string_put(ctx->mlx, ctx->win, 160, 70, 0xFFFFFF, zoom);
+	free(zoom);
+	rot_x = ft_itoa((int)ctx->camera.rot_x);
+	if (!rot_x)
+		return (ERROR);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 90, 0xFFFFFF, "Rotate X : ");
-	mlx_string_put(ctx->mlx, ctx->win, 160, 90, 0xFFFFFF, str=ft_itoa((int)ctx->camera.rot_x));
+	mlx_string_put(ctx->mlx, ctx->win, 160, 90, 0xFFFFFF, rot_x);
 	mlx_string_put(ctx->mlx, ctx->win, 200, 90, 0xFFFFFF, "(rad)");
+	free(rot_x);
+	rot_y = ft_itoa((int)ctx->camera.rot_y);
+	if (!rot_y)
+		return (ERROR);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 110, 0xFFFFFF, "Rotate Y : ");
-	mlx_string_put(ctx->mlx, ctx->win, 160, 110, 0xFFFFFF, str=ft_itoa((int)ctx->camera.rot_y));
+	mlx_string_put(ctx->mlx, ctx->win, 160, 110, 0xFFFFFF, rot_y);
 	mlx_string_put(ctx->mlx, ctx->win, 200, 110, 0xFFFFFF, "(rad)");
-	return (0);
+	free(rot_y);
+	return (SUCCESS);
 }
