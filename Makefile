@@ -6,23 +6,25 @@
 #    By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 12:42:52 by tafujise          #+#    #+#              #
-#    Updated: 2025/11/20 10:39:26 by tafujise         ###   ########.fr        #
+#    Updated: 2025/11/20 16:19:08 by tafujise         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME:=fdf
 
 SRCDIR:=srcs
-SRCS:=main.c\
-	free.c\
-	hooks.c\
-	render.c\
-	set_hooks.c\
-	init.c\
-	utils.c\
-	parse.c\
-	matrix.c\
-	transform.c\
+SRCS:=app/main.c\
+	app/free.c\
+	app/init.c\
+	graphics/hooks.c\
+	graphics/render.c\
+	graphics/draw.c\
+	graphics/set_hooks.c\
+	io/utils.c\
+	io/parse.c\
+	math/matrix_init.c\
+	math/matrix_utils.c\
+	math/transform.c\
 	test.c\
 
 HEADDIR:=includes
@@ -55,7 +57,7 @@ $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) -lXext -lX11 -lm -lz
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:

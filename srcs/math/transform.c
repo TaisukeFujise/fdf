@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 23:40:54 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 12:15:13 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 15:31:13 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 void	build_model_matrix(t_mat4 *m_model, t_ctx *ctx)
 {
-	t_mat4	m_zoom;
-	t_mat4	m_t_r;
+	t_mat4	m_scale;
+	t_mat4	m_rotate;
+	t_mat4	m_translate;
 
-	mat_identity(&m_zoom);
-	mat_zoom(&m_zoom, ctx);
-	mat_identity(&m_t_r);
-	mat_t_r(&m_t_r, ctx);
-	mat_identity(m_model);
-	mat4_mul(m_model, &m_zoom, &m_t_r);
+	mat_scale(&m_scale, ctx);
+	mat_rotate(&m_rotate, ctx);
+	mat_translate(&m_translate, ctx);
+	mat4_mul_3(m_model, &m_translate, &m_rotate, &m_scale);
+	// t_mat4	m_zoom;
+	// t_mat4	m_t_r;
+
+	// mat_identity(&m_zoom);
+	// mat_zoom(&m_zoom, ctx);
+	// mat_identity(&m_t_r);
+	// mat_t_r(&m_t_r, ctx);
+	// mat_identity(m_model);
+	// mat4_mul(m_model, &m_zoom, &m_t_r);
 }
 
 void	model_to_screen(t_mat4 *m_model, t_mappoint *point)
@@ -38,6 +46,7 @@ void	model_to_screen(t_mat4 *m_model, t_mappoint *point)
 	mat_mul_vec4(m_model, &v_in, &v_out);
 	point->screen_x = v_out.vec[0][0];
 	point->screen_y = v_out.vec[1][0];
+	point->screen_z = v_out.vec[2][0];
 }
 
 void	project_map(t_mat4 *m_model, t_ctx *ctx)
