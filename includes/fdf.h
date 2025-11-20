@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 01:11:59 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 10:53:49 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
+
+# define ABS(Value) (((Value) ^ ((Value) >> 31)) - ((Value) >> 31))
 
 # include <mlx.h>
 # include <fcntl.h>
@@ -105,7 +107,7 @@ typedef struct s_vec4
 }	t_vec4;
 
 /* utils.c */
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	my_mlx_pixel_put(t_ctx *ctx, int x, int y, int color);
 int		count_cols_len(char **arr);
 /* init.c */
 int	ctx_init(t_ctx *ctx);
@@ -120,7 +122,7 @@ int	button_press(int button, int x, int y, t_ctx *ctx);
 int	button_release(int button, int x, int y, t_ctx *ctx);
 int	button_motion(int x, int y, t_ctx *ctx);
 int	window_close(t_ctx *ctx);
-/* loop.c */
+/* render.c */
 int	render_next_frame(t_ctx *ctx);
 /* setup_hooks.c */
 void	set_hooks(t_ctx *ctx);
@@ -137,4 +139,6 @@ void	mat_mul_vec4(t_mat4 *mat, t_vec4 *t_in, t_vec4 *t_out);
 void	build_model_matrix(t_mat4 *m_model, t_ctx *ctx);
 void	project_map(t_mat4 *m_model, t_ctx *ctx);
 
+void	print_mappoint(t_map map);
+void	print_map_spoint(t_map map);
 #endif

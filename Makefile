@@ -6,7 +6,7 @@
 #    By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 12:42:52 by tafujise          #+#    #+#              #
-#    Updated: 2025/11/19 23:42:34 by tafujise         ###   ########.fr        #
+#    Updated: 2025/11/20 10:39:26 by tafujise         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS:=main.c\
 	utils.c\
 	parse.c\
 	matrix.c\
-	transform.c
+	transform.c\
+	test.c\
 
 HEADDIR:=includes
 HEADERS:=$(HEADDIR)/fdf.h

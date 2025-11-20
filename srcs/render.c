@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 01:10:46 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 10:46:15 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	clear_image(t_ctx *ctx);
 static int	update_map_projection(t_ctx *ctx);
 static int	draw_wireframe(t_ctx *ctx);
-void	draw_line(t_mappoint a, t_mappoint b);
+void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);
 static int	display_hud(t_ctx *ctx);
 int	display_textbox(t_ctx *ctx);
 
@@ -38,18 +38,6 @@ static int	clear_image(t_ctx *ctx)
 	return (0);
 }
 
-void	print_map_spoint(t_map map)
-{
-	int i;
-
-	i = 0;
-	while (i < map.width * map.height)
-	{
-		printf("i: %d\n", i);
-		printf("(screen_x, screen_y) = (%f, %f)\n", map.points[i].screen_x, map.points[i].screen_y);
-		i++;
-	}
-}
 /*
 3次元座標 -> スクリーン2次元座標への変換 
 (x, y, z) -> (screen_x, screen_y)
@@ -76,27 +64,54 @@ static int	draw_wireframe(t_ctx *ctx)
 	while (i < ctx->map.width * ctx->map.height)
 	{
 		if (ctx->map.points[i].x + 1 < ctx->map.width)
-			draw_line(ctx->map.points[i], ctx->map.points[i + 1]);
+			draw_line(ctx, ctx->map.points[i], ctx->map.points[i + 1]);
 		if (ctx->map.points[i].y + 1 < ctx->map.height)
-			draw_line(ctx->map.points[i], ctx->map.points[i + ctx->map.width]);
+			draw_line(ctx, ctx->map.points[i], ctx->map.points[i + ctx->map.width]);
 		i++;
 	}
 	return (0);
 }
 
-void	draw_line(t_mappoint a, t_mappoint b)
+void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b)
 {
-	// double	dx;
-	// double	dy;
-
-	// dx = b.screen_x - a.screen_x;
-	// dy = b.screen_y - b.screen_y;
-	// if (dx > dy)
-	// {
-		
-	// }
+	// my_mlx_pixel_put(ctx, a.screen_x, a.screen_y, 0xFFFFFF);
+	// my_mlx_pixel_put(ctx, b.screen_x, b.screen_y, 0xFFFFFF);
+	(void)ctx;
 	(void)a;
 	(void)b;
+	// int		dx;
+	// int		dy;
+	// int		sx;
+	// int		sy;
+	// int		err;
+	// int		err2;
+
+	// dx = ABS((int)(b.screen_x - a.screen_x));
+	// dy = ABS((int)(b.screen_y - a.screen_y));
+	// if (a.screen_x < b.screen_x)
+	// 	sx = 1;
+	// else
+	// 	sx = -1;
+	// if (a.screen_y < b.screen_y)
+	// 	sy = 1;
+	// else
+	// 	sy = -1;
+	// err = dx - dy;
+	// while (a.screen_x != b.screen_x || a.screen_y != b.screen_y)
+	// {
+	// 	my_mlx_pixel_put(ctx, a.screen_x, a.screen_y, 0xFFFFFF);
+	// 	err2 = err * 2;
+	// 	if (err2 > -dy)
+	// 	{
+	// 		err = err - dy;
+	// 		a.screen_x += sx;
+	// 	}
+	// 	if (err2 < dx)
+	// 	{
+	// 		err = err + dx;
+	// 		a.screen_y += sy;
+	// 	}
+	// }
 }
 
 static int	display_hud(t_ctx *ctx)
@@ -132,7 +147,7 @@ int	display_textbox(t_ctx *ctx)
 		while (j < 100)
 		{
 			if (i == 10 || i == 249 || j == 10 || j == 99 )
-				my_mlx_pixel_put(&ctx->img, i, j, 0xF0F8FF);
+				my_mlx_pixel_put(ctx, i, j, 0xF0F8FF);
 			j++;
 		}
 		i++;

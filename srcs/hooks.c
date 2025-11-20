@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/19 19:59:32 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 10:47:11 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,17 @@ int	button_press(int button, int x, int y, t_ctx *ctx)
 	{
 		ctx->camera.zoom.lock *= -1;
 	}
-	else if ((ctx->camera.zoom.lock == -1) && (button == 4 || button == 5))
+	if (ctx->camera.zoom.lock == -1)
 	{
-		ctx->camera.zoom.cursor_x = x;
-		ctx->camera.zoom.cursor_y = y;
-		if (button == 4)
-			ctx->camera.zoom.ratio *= 1.1;
-		else
-			ctx->camera.zoom.ratio *= 0.9;
+		if (button == 4 || button == 5)
+		{
+			ctx->camera.zoom.cursor_x = x;
+			ctx->camera.zoom.cursor_y = y;
+			if (button == 4)
+				ctx->camera.zoom.ratio *= 1.5;
+			else
+				ctx->camera.zoom.ratio *= 0.7;
+		}
 	}
 	return (0);
 }
@@ -80,7 +83,7 @@ int	button_motion(int x, int y, t_ctx *ctx)
 	if (ctx->click.is_pressed == 1)
 	{
 		dx = x - ctx->click.last_x;
-		dy = -(y - ctx->click.last_y);
+		dy = y - ctx->click.last_y;
 		ctx->camera.rot_x = (double)dy * sensitivity;
 		ctx->camera.rot_y = (double)dx * sensitivity;
 		if (ctx->camera.mode == ISO)

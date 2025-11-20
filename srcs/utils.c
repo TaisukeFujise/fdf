@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 00:52:53 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/18 23:39:58 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 10:32:25 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 #include <stdio.h>
 
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_ctx *ctx, int x, int y, int color)
 {
 	int		offset;
 	char	*dst;
 
-	offset = y * img->line_length + x * (img->bits_per_pixel / 8);
-	dst = img->addr + offset;
-	*(unsigned int *)dst = color;
+	if ((0 <= x && x < WIDTH) || (0 <= y && y < HEIGHT))
+	{
+		offset = y * ctx->img.line_length + x * (ctx->img.bits_per_pixel / 8);
+		dst = ctx->img.addr + offset;
+		if (dst == NULL)
+			return ;
+		*(unsigned int *)dst = color;
+	}
 }
 
 int	count_cols_len(char **arr)
@@ -37,4 +42,11 @@ int	count_cols_len(char **arr)
 		i++;
 	}
 	return (i);
+}
+
+double	abs_double(double value)
+{
+	if (value < 0)
+		return (-value);
+	return (value);
 }
