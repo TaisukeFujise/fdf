@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:33:01 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/19 16:56:06 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 23:40:51 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	free_ctx(t_ctx *ctx)
 {
+	if (ctx->z_buf != NULL)
+		free(ctx->z_buf);
 	if (ctx->map.points != NULL)
 		free(ctx->map.points);
 	if (ctx->mlx != NULL && ctx->img.img != NULL)

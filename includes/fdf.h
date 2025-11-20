@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 22:07:56 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:02:52 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-
 # define PI 3.14159265358979323846
 
 // # define ABS(Value) (((Value) ^ ((Value) >> 31)) - ((Value) >> 31))
@@ -26,6 +25,7 @@
 # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
+# include <float.h>
 # include <stdio.h>
 # include "../libft/libft.h"
 
@@ -89,6 +89,7 @@ typedef struct s_ctx
 	t_click		click;
 	t_map		map;
 	t_camera	camera;
+	double		*z_buf;
 }	t_ctx;
 
 typedef struct s_mat4
@@ -108,7 +109,9 @@ typedef struct s_draw_param
 	double	sx;
 	double	sy;
 	double	err;
+	double	step;
 }	t_draw_param;
+
 /* <app>*/
 /* init.c */
 int	ctx_init(t_ctx *ctx);
@@ -127,11 +130,12 @@ int	window_close(t_ctx *ctx);
 int	render_next_frame(t_ctx *ctx);
 /* colors.c */
 uint32_t	mix_color(uint32_t color1, uint32_t color2);
+uint32_t	lerp_mix_color(uint32_t color1, uint32_t color2, double step);
 /* draw.c */
-void	my_mlx_pixel_put(t_ctx *ctx, int x, int y, int color);
+void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color);
 void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);
 int	display_hud(t_ctx *ctx);
-int	display_textbox(t_ctx *ctx);
+// int	display_textbox(t_ctx *ctx);
 /* setup_hooks.c */
 void	set_hooks(t_ctx *ctx);
 

@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:18:23 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 22:12:25 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 23:40:12 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	_env_init(t_ctx *ctx);
 static void	_camera_init(t_ctx *ctx);
+static int	_z_buffer_init(t_ctx *ctx);
 
 int	ctx_init(t_ctx *ctx)
 {
@@ -21,6 +22,8 @@ int	ctx_init(t_ctx *ctx)
 	if(_env_init(ctx) == ERROR)
 		return (ERROR);
 	_camera_init(ctx);
+	if (_z_buffer_init(ctx) == ERROR)
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -49,4 +52,18 @@ static void	_camera_init(t_ctx *ctx)
 	ctx->camera.rot_y = -PI/4;
 }
 
+static int	_z_buffer_init(t_ctx *ctx)
+{
+	int	i;
 
+	ctx->z_buf = malloc(sizeof(double) * WIDTH * HEIGHT);
+	if (!ctx->z_buf)
+		return (ERROR) ;
+	i = 0;
+	while (i < WIDTH * HEIGHT)
+	{
+		ctx->z_buf[i] = INT_MAX;
+		i++;
+	}
+	return (SUCCESS);
+}

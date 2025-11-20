@@ -6,20 +6,22 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 22:08:17 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:02:34 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/fdf.h"
 
-void	my_mlx_pixel_put(t_ctx *ctx, int x, int y, int color)
+void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color)
 {
 	int		offset;
 	char	*dst;
 
-	if ((0 <= x && x < WIDTH) && (0 <= y && y < HEIGHT))
+	if ((0 <= dot[0] && dot[0] < WIDTH) && (0 <= dot[1] && dot[1] < HEIGHT))
 	{
-		offset = y * ctx->img.line_length + x * (ctx->img.bits_per_pixel / 8);
+		if (ctx->z_buf[dot[1] * WIDTH + dot[0]] < z_curr)
+			return ; 
+		offset = dot[1] * ctx->img.line_length + dot[0] * (ctx->img.bits_per_pixel / 8);
 		dst = ctx->img.addr + offset;
 		if (dst == NULL)
 			return ;
@@ -48,41 +50,46 @@ void	init_draw_param(t_draw_param *param, t_mappoint dot_0, t_mappoint dot_1)
 	else
 		param->sy = -1;
 	param->err = 0;
+	param->step = 0;
 }
 
 void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 {
-	int	x;
-	int	y;
+	int	dot[2];
 	t_draw_param	param;
+	double			z_curr;
 
-	x = (int)dot_0.screen_x;
-	y = (int)dot_0.screen_y;
+	dot[0] = (int)dot_0.screen_x;
+	dot[1] = (int)dot_0.screen_y;
 	init_draw_param(&param, dot_0, dot_1);
 	if (param.dx > param.dy)
 	{
-		while (x != (int)dot_1.screen_x)
+		while (dot[0] != (int)dot_1.screen_x)
 		{
-			my_mlx_pixel_put(ctx, x, y, mix_color(dot_0.color, dot_1.color));
-			x += param.sx;
+			param.step += 1.0 / param.dx;
+			z_curr = (1 - param.step) * dot_0.screen_z + param.step * dot_1.screen_z;
+			my_mlx_pixel_put(ctx, dot, z_curr, lerp_mix_color(dot_0.color, dot_1.color, param.step));
+			dot[0] += param.sx;
 			param.err += param.dy / param.dx;
 			if (param.err >= 0.5)
 			{
-				y += param.sy;
+				dot[1] += param.sy;
 				param.err -= 1.0;
 			}
 		}
 	}
 	else
 	{
-		while (y != (int)dot_1.screen_y)
+		while (dot[1] != (int)dot_1.screen_y)
 		{
-			my_mlx_pixel_put(ctx, x, y, 0xFFFFFF);
-			y += param.sy;
+			param.step += 1.0 / param.dy;
+			z_curr = (1 - param.step) * dot_0.screen_z + param.step * dot_1.screen_z;
+			my_mlx_pixel_put(ctx, dot, z_curr, lerp_mix_color(dot_0.color, dot_1.color, param.step));
+			dot[1] += param.sy;
 			param.err += param.dx / param.dy;
 			if (param.err >= 0.5)
 			{
-				x += param.sx;
+				dot[0] += param.sx;
 				param.err -= 1.0;
 			}
 		}
@@ -103,30 +110,30 @@ int	display_hud(t_ctx *ctx)
 	zoom = ft_strjoin("zoom : ", ft_itoa((int)ctx->camera.zoom));
 	if (zoom == NULL)
 		return (1);
-	display_textbox(ctx);
+	// display_textbox(ctx);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 30, 0xFFFFFF, "==Parameters==");
 	mlx_string_put(ctx->mlx, ctx->win, 30, 50, 0xFFFFFF, mode);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 70, 0xFFFFFF, zoom);
 	return (0);
 }
 
-int	display_textbox(t_ctx *ctx)
-{
-	int	i;
-	int	j;
+// int	display_textbox(t_ctx *ctx)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 10;
-	while (i < 250)
-	{
-		j = 10;
-		while (j < 100)
-		{
-			if (i == 10 || i == 249 || j == 10 || j == 99 )
-				my_mlx_pixel_put(ctx, i, j, 0xF0F8FF);
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
+// 	i = 10;
+// 	while (i < 250)
+// 	{
+// 		j = 10;
+// 		while (j < 100)
+// 		{
+// 			if (i == 10 || i == 249 || j == 10 || j == 99 )
+// 				my_mlx_pixel_put(ctx, i, j, 0xF0F8FF);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
