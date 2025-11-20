@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 05:13:49 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 05:32:22 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
-# include <stdio.h>
 # include "../libft/libft.h"
 
 typedef enum e_mode
