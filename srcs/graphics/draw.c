@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 19:15:42 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:55:27 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,32 @@ void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 	x = (int)dot_0.screen_x;
 	y = (int)dot_0.screen_y;
 	init_draw_param(&param, dot_0, dot_1);
-	while (x <= (int)dot_1.screen_x)
+	if (param.dx > param.dy)
 	{
-		my_mlx_pixel_put(ctx, x, y, 0xFFFFFF);
-		x += param.sx;
-		param.err += param.dy / param.dx;
-		if (param.err >= 0.5)
+		while (x != (int)dot_1.screen_x)
 		{
+			my_mlx_pixel_put(ctx, x, y, 0xFFFFFF);
+			x += param.sx;
+			param.err += param.dy / param.dx;
+			if (param.err >= 0.5)
+			{
+				y += param.sy;
+				param.err -= 1.0;
+			}
+		}
+	}
+	else
+	{
+		while (y != (int)dot_1.screen_y)
+		{
+			my_mlx_pixel_put(ctx, x, y, 0xFFFFFF);
 			y += param.sy;
-			param.err -= 1.0;
+			param.err += param.dx / param.dy;
+			if (param.err >= 0.5)
+			{
+				x += param.sx;
+				param.err -= 1.0;
+			}
 		}
 	}
 }
@@ -76,7 +93,6 @@ int	display_hud(t_ctx *ctx)
 {
 	char	*mode;
 	char	*zoom;
-	char	*lock;
 
 	if (ctx->camera.mode == ISO)
 		mode = "projection mode : isometric";
@@ -84,18 +100,13 @@ int	display_hud(t_ctx *ctx)
 		mode = "projection mode : parallel";
 	else
 		mode = "projection mode : conic";
-	zoom = ft_strjoin("zoom : ", ft_itoa((int)ctx->camera.zoom.ratio));
+	zoom = ft_strjoin("zoom : ", ft_itoa((int)ctx->camera.zoom));
 	if (zoom == NULL)
 		return (1);
-	if (ctx->camera.zoom.lock == 1)
-		lock = "zoom lock : lock";
-	else
-		lock = "zoom lock : unlock";
 	display_textbox(ctx);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 30, 0xFFFFFF, "==Parameters==");
 	mlx_string_put(ctx->mlx, ctx->win, 30, 50, 0xFFFFFF, mode);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 70, 0xFFFFFF, zoom);
-	mlx_string_put(ctx->mlx, ctx->win, 30, 90, 0xFFFFFF, lock);
 	return (0);
 }
 

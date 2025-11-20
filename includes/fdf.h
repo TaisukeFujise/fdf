@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 18:39:20 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:56:08 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,6 @@ typedef struct s_map
 	t_mappoint	*points;
 }	t_map;
 
-typedef struct s_zoom
-{
-	double	ratio;
-	int		lock;
-	int		cursor_x;
-	int		cursor_y;
-}	t_zoom;
-
 typedef struct s_camera
 {
 	double	rot_x;
@@ -85,7 +77,7 @@ typedef struct s_camera
 	// double	rot_z;
 	double	offset_x;
 	double	offset_y;
-	t_zoom	zoom;
+	double	zoom;
 	t_mode	mode;
 }	t_camera;
 

@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:18:23 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 18:32:08 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:55:21 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static int	_env_init(t_ctx *ctx)
 
 static void	_camera_init(t_ctx *ctx)
 {
-	ctx->camera.zoom.ratio = 10.0;
-	ctx->camera.zoom.lock = 1;
-	ctx->camera.zoom.cursor_x = WIDTH / 2;
-	ctx->camera.zoom.cursor_y = HEIGHT / 2;
+	ctx->camera.zoom = 10.0;
 	ctx->camera.mode = ISO;
 	ctx->camera.rot_x = -atan(1 / sqrt(2));
 	ctx->camera.rot_y = -PI/4;
