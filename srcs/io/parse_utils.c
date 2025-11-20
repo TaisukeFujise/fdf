@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 04:18:43 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 04:23:23 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 05:01:39 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	read_and_split_line(char **row_line, char ***cols, int fd)
 {
 	*row_line = get_next_line(fd);
 	if (*row_line == NULL || **row_line == '\0')
-		return (get_next_line(-1), ERROR);
+		return (gnl_cleanup(), ERROR);
 	*cols = ft_split(*row_line, ' ');
 	if (*cols == NULL)
-		return (get_next_line(-1), ERROR);
+		return (gnl_cleanup(), ERROR);
 	return (SUCCESS);
 }
 
@@ -72,4 +72,9 @@ uint32_t	ft_atoui32_hex(char *str)
 		str++;
 	}
 	return ((uint32_t)num);
+}
+
+void	gnl_cleanup(void)
+{
+	get_next_line(-1);
 }

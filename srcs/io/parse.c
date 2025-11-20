@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 04:43:52 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 05:00:47 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,19 @@ static int	parse_map_size(t_ctx *ctx, int fd)
 	width = 0;
 	height = 0;
 	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
-		return (perror("read/malloc"),
-			free_row_and_cols(&row_line, &cols), ERROR);
+		return (perror("read/malloc"), free_row_and_cols(&row_line, &cols), gnl_cleanup(), ERROR);
 	width = count_cols_len(cols);
 	while (row_line != NULL && cols != NULL)
 	{
 		if (width != count_cols_len(cols))
-			return (ft_putstr_fd("Error: found wrong row_line\n", 1),
-				free_row_and_cols(&row_line, &cols), ERROR);
+			return (ft_putstr_fd("Error: found wrong row_line\n", 1), free_row_and_cols(&row_line, &cols), gnl_cleanup(), ERROR);
 		height++;
 		if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 			break ;
 	}
 	ctx->map.width = width;
 	ctx->map.height = height;
-	return (free_row_and_cols(&row_line, &cols), SUCCESS);
+	return (free_row_and_cols(&row_line, &cols), gnl_cleanup(), SUCCESS);
 }
 
 static int	parse_map_points(t_ctx *ctx, int fd)
@@ -74,7 +72,7 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 	int		i;
 
 	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
-		return (perror("Error"), free_row_and_cols(&row_line, &cols), ERROR);
+		return (perror("Error"), free_row_and_cols(&row_line, &cols), gnl_cleanup(), ERROR);
 	row = 0;
 	i = 0;
 	while (row < ctx->map.height && row_line != NULL)
@@ -85,8 +83,7 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 			ctx->map.points[i].x = (double)col;
 			ctx->map.points[i].z = (double)row;
 			if (parse_height_color(&ctx->map.points[i], cols[col]) == ERROR)
-				return (perror("Error"),
-					free_row_and_cols(&row_line, &cols), ERROR);
+				return (perror("Error"), free_row_and_cols(&row_line, &cols), gnl_cleanup(), ERROR);
 			i++;
 			col++;
 		}
@@ -96,7 +93,7 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 			break ;
 	}
 	free_row_and_cols(&row_line, &cols);
-	return (SUCCESS);
+	return (gnl_cleanup(), SUCCESS);
 }
 
 static int	parse_height_color(t_mappoint *point, char *col)
