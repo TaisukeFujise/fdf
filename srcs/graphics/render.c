@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 22:52:49 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:12:43 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	_update_map_projection(t_ctx *ctx)
 
 	build_model_matrix(&m_model, ctx);
 	project_map(&m_model, ctx);
-	// print_map_spoint(ctx->map);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 00:02:34 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:26:33 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,42 +98,24 @@ void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 
 int	display_hud(t_ctx *ctx)
 {
-	char	*mode;
-	char	*zoom;
+	char	*str;
 
 	if (ctx->camera.mode == ISO)
-		mode = "projection mode : isometric";
+		str = "Isometric";
 	else if (ctx->camera.mode == PAR)
-		mode = "projection mode : parallel";
+		str = "Parallel";
 	else
-		mode = "projection mode : conic";
-	zoom = ft_strjoin("zoom : ", ft_itoa((int)ctx->camera.zoom));
-	if (zoom == NULL)
-		return (1);
-	// display_textbox(ctx);
+		str = "Conic";
 	mlx_string_put(ctx->mlx, ctx->win, 30, 30, 0xFFFFFF, "==Parameters==");
-	mlx_string_put(ctx->mlx, ctx->win, 30, 50, 0xFFFFFF, mode);
-	mlx_string_put(ctx->mlx, ctx->win, 30, 70, 0xFFFFFF, zoom);
+	mlx_string_put(ctx->mlx, ctx->win, 30, 50, 0xFFFFFF, "Projection mode : ");
+	mlx_string_put(ctx->mlx, ctx->win, 150, 50, 0xFFFFFF, str);
+	mlx_string_put(ctx->mlx, ctx->win, 30, 70, 0xFFFFFF, "Zoom : ");
+	mlx_string_put(ctx->mlx, ctx->win, 160, 70, 0xFFFFFF, str=ft_itoa((int)ctx->camera.zoom));
+	mlx_string_put(ctx->mlx, ctx->win, 30, 90, 0xFFFFFF, "Rotate X : ");
+	mlx_string_put(ctx->mlx, ctx->win, 160, 90, 0xFFFFFF, str=ft_itoa((int)ctx->camera.rot_x));
+	mlx_string_put(ctx->mlx, ctx->win, 200, 90, 0xFFFFFF, "(rad)");
+	mlx_string_put(ctx->mlx, ctx->win, 30, 110, 0xFFFFFF, "Rotate Y : ");
+	mlx_string_put(ctx->mlx, ctx->win, 160, 110, 0xFFFFFF, str=ft_itoa((int)ctx->camera.rot_y));
+	mlx_string_put(ctx->mlx, ctx->win, 200, 110, 0xFFFFFF, "(rad)");
 	return (0);
 }
-
-// int	display_textbox(t_ctx *ctx)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 10;
-// 	while (i < 250)
-// 	{
-// 		j = 10;
-// 		while (j < 100)
-// 		{
-// 			if (i == 10 || i == 249 || j == 10 || j == 99 )
-// 				my_mlx_pixel_put(ctx, i, j, 0xF0F8FF);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-

@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 00:02:52 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:21:55 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ uint32_t	lerp_mix_color(uint32_t color1, uint32_t color2, double step);
 void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color);
 void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);
 int	display_hud(t_ctx *ctx);
-// int	display_textbox(t_ctx *ctx);
 /* setup_hooks.c */
 void	set_hooks(t_ctx *ctx);
 
