@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 19:56:08 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:07:56 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int	button_motion(int x, int y, t_ctx *ctx);
 int	window_close(t_ctx *ctx);
 /* render.c */
 int	render_next_frame(t_ctx *ctx);
+/* colors.c */
+uint32_t	mix_color(uint32_t color1, uint32_t color2);
 /* draw.c */
 void	my_mlx_pixel_put(t_ctx *ctx, int x, int y, int color);
 void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);

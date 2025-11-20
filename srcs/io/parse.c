@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 18:55:50 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:47:01 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static int	parse_map_size(t_ctx *ctx, int fd);
 static int	read_and_split_line(char **row_line, char ***cols, int fd);
 static int	parse_map_points(t_ctx *ctx, int fd);
-// static unsigned int	hexa_index(char c);
-// static int	read_color(char *color, t_ctx *ctx);
+static int	parse_height_color(t_mappoint *point, char *col);
+int	hexa_index(char c);
+int	check_hex_prefix(char **str);
+uint32_t	ft_atoui32_hex(char *str);
 
 int	parse_map(t_ctx *ctx, char *file_path)
 {
@@ -99,7 +101,7 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 		{
 			ctx->map.points[i].x = (double)col;
 			ctx->map.points[i].z = (double)row;
-			ctx->map.points[i].y = (double)((-1) * ft_atoi(cols[col]));
+			parse_height_color(&ctx->map.points[i], cols[col]);
 			i++;
 			col++;
 		}
@@ -110,25 +112,78 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 	return (SUCCESS);
 }
 
+static int	parse_height_color(t_mappoint *point, char *col)
+{
+	char	**height_color;
+	char	*height;
+	char	*color;
+
+	height_color = ft_split(col, ',');
+	if (height_color == NULL)
+		return (ft_putstr_fd("1Wrong value\n", 1), ERROR);
+	height = *height_color;
+	point->y = (double)((-1) * ft_atoi(height));
+	height_color++;
+	if (height_color == NULL)
+		point->color = 0xFFFFFF;
+	else
+	{
+		color = *height_color;
+		point->color = ft_atoui32_hex(color);
+	}
+	return (SUCCESS);
+}
+
+int	hexa_index(char c)
+{
+	char			*hexa_str;
+	unsigned int	index;
+
+	hexa_str = "0123456789ABCDEF";
+	index = 0;
+	while (hexa_str[index])
+	{
+		if (c == hexa_str[index])
+			return (index);
+		index++;
+	}
+	return (-1);
+}
+
+int	check_hex_prefix(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (*str == NULL)
+		return (ERROR);
+	if (ft_strlen(*str) < 3 
+		|| (*str)[i] != '0'
+		|| (*str)[i + 1] != 'x')
+		return (ERROR);
+	(*str) += 2;
+	return (SUCCESS);
+}
+
+uint32_t	ft_atoui32_hex(char *str)
+{
+	uint64_t	num;
+
+	if (check_hex_prefix(&str) == ERROR)
+		return (-1);
+	num = (uint64_t)hexa_index(*str);
+	if (num == (uint64_t)(-1))
+		return (-1);
+	str++;
+	while (hexa_index(*str) != -1)
+	{
+		num = num * 16 + hexa_index(*str);
+		str++;
+	}
+	return ((uint32_t)num);
+}
+
 /*以下色の取得関連でSVG発生*/
-
-
-// unsigned int	hexa_index(char c)
-// {
-// 	char			*hexa_str;
-// 	unsigned int	index;
-
-// 	hexa_str = "0123456789ABCDEF";
-// 	index = 0;
-// 	while (hexa_str[index])
-// 	{
-// 		if (c == hexa_str[index])
-// 			return (index);
-// 		index++;
-// 	}
-// 	return (-1);
-// }
-
 // int	read_color(char *color, t_ctx *ctx)
 // {
 // 	unsigned int	num;

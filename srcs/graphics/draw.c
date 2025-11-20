@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 19:55:27 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:08:17 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 	{
 		while (x != (int)dot_1.screen_x)
 		{
-			my_mlx_pixel_put(ctx, x, y, 0xFFFFFF);
+			my_mlx_pixel_put(ctx, x, y, mix_color(dot_0.color, dot_1.color));
 			x += param.sx;
 			param.err += param.dy / param.dx;
 			if (param.err >= 0.5)
