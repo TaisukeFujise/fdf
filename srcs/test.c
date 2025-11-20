@@ -6,11 +6,18 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 10:39:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 10:39:14 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:10:41 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+void	print_mapsize(t_map map)
+{
+	printf("==map==\n");
+	printf("width: %d\n", map.width);
+	printf("height: %d\n", map.height);
+}
 
 void	print_mappoint(t_map map)
 {

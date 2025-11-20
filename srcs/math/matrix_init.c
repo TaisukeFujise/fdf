@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:34:45 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 16:18:35 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 16:58:54 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	mat_scale(t_mat4 *m_scale, t_ctx *ctx)
 	m_scale_raw.mat[1][1] = ctx->camera.zoom.ratio;
 	m_scale_raw.mat[2][2] = ctx->camera.zoom.ratio;
 	mat_identity(&m_to_center);
-	m_to_center.mat[0][3] -= ctx->map.width / 2;
-	m_to_center.mat[1][3] -= ctx->map.height / 2;
+	m_to_center.mat[0][3] -= (double)(ctx->map.width - 1) / 2.0;
+	m_to_center.mat[2][3] -= (double)(ctx->map.height - 1) / 2.0;
 	mat_identity(&m_from_center);
-	m_from_center.mat[0][3] += ctx->map.width / 2;
-	m_from_center.mat[1][3] += ctx->map.height / 2;
+	m_from_center.mat[0][3] += (double)(ctx->map.width - 1) / 2.0;
+	m_from_center.mat[2][3] += (double)(ctx->map.height - 1) / 2.0;
 	mat4_mul_3(m_scale, &m_from_center, &m_scale_raw, &m_to_center);
 }
 
@@ -70,19 +70,19 @@ void	mat_rotate(t_mat4 *m_rotate, t_ctx *ctx)
 	mat_rotate_y(&m_rotate_y, ctx);
 	mat4_mul(&m_rotate_raw, &m_rotate_y, &m_rotate_x);
 	mat_identity(&m_to_center);
-	m_to_center.mat[0][3] -= ctx->map.width / 2;
-	m_to_center.mat[1][3] -= ctx->map.height / 2;
+	m_to_center.mat[0][3] -= (double)(ctx->map.width - 1) / 2.0;
+	m_to_center.mat[2][3] -= (double)(ctx->map.height - 1) / 2.0;
 	mat_identity(&m_from_center);
-	m_from_center.mat[0][3] += ctx->map.width / 2;
-	m_from_center.mat[1][3] += ctx->map.height / 2;
+	m_from_center.mat[0][3] += (double)(ctx->map.width - 1) / 2.0;
+	m_from_center.mat[2][3] += (double)(ctx->map.height - 1) / 2.0;
 	mat4_mul_3(m_rotate, &m_from_center, &m_rotate_raw, &m_to_center);
 }
 
 void	mat_translate(t_mat4 *m_translate, t_ctx *ctx)
 {
 	mat_identity(m_translate);
-	m_translate->mat[0][3] = WIDTH / 2 + ctx->camera.offset_x;
-	m_translate->mat[1][3] = HEIGHT / 2 + ctx->camera.offset_y;
+	m_translate->mat[0][3] = WIDTH / 2.0 + ctx->camera.offset_x;
+	m_translate->mat[1][3] = HEIGHT / 2.0 + ctx->camera.offset_y;
 }
 
 

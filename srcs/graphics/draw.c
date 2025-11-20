@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 15:27:22 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:15:42 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,46 +27,49 @@ void	my_mlx_pixel_put(t_ctx *ctx, int x, int y, int color)
 	}
 }
 
-void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b)
+double	abs_double(double value)
 {
-	my_mlx_pixel_put(ctx, a.screen_x, a.screen_y, 0xFFFFFF);
-	my_mlx_pixel_put(ctx, b.screen_x, b.screen_y, 0xFFFFFF);
-	// (void)ctx;
-	// (void)a;
-	// (void)b;
-	// int		dx;
-	// int		dy;
-	// int		sx;
-	// int		sy;
-	// int		err;
-	// int		err2;
+	if (value < 0)
+		return (value * (-1.0));
+	return (value);
+}
 
-	// dx = ABS((int)(b.screen_x - a.screen_x));
-	// dy = ABS((int)(b.screen_y - a.screen_y));
-	// if (a.screen_x < b.screen_x)
-	// 	sx = 1;
-	// else
-	// 	sx = -1;
-	// if (a.screen_y < b.screen_y)
-	// 	sy = 1;
-	// else
-	// 	sy = -1;
-	// err = dx - dy;
-	// while (a.screen_x != b.screen_x || a.screen_y != b.screen_y)
-	// {
-	// 	my_mlx_pixel_put(ctx, a.screen_x, a.screen_y, 0xFFFFFF);
-	// 	err2 = err * 2;
-	// 	if (err2 > -dy)
-	// 	{
-	// 		err = err - dy;
-	// 		a.screen_x += sx;
-	// 	}
-	// 	if (err2 < dx)
-	// 	{
-	// 		err = err + dx;
-	// 		a.screen_y += sy;
-	// 	}
-	// }
+void	init_draw_param(t_draw_param *param, t_mappoint dot_0, t_mappoint dot_1)
+{
+	ft_bzero(param, sizeof(t_draw_param));
+	param->dx = abs_double(dot_1.screen_x - dot_0.screen_x);
+	param->dy = abs_double(dot_1.screen_y - dot_0.screen_y);
+	if (dot_0.screen_x < dot_1.screen_x)
+		param->sx = 1;
+	else
+		param->sx = -1;
+	if (dot_0.screen_y < dot_1.screen_y)
+		param->sy = 1;
+	else
+		param->sy = -1;
+	param->err = 0;
+}
+
+void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
+{
+	int	x;
+	int	y;
+	t_draw_param	param;
+
+	x = (int)dot_0.screen_x;
+	y = (int)dot_0.screen_y;
+	init_draw_param(&param, dot_0, dot_1);
+	while (x <= (int)dot_1.screen_x)
+	{
+		my_mlx_pixel_put(ctx, x, y, 0xFFFFFF);
+		x += param.sx;
+		param.err += param.dy / param.dx;
+		if (param.err >= 0.5)
+		{
+			y += param.sy;
+			param.err -= 1.0;
+		}
+	}
 }
 
 int	display_hud(t_ctx *ctx)

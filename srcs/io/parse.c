@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/19 16:57:56 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:55:50 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,6 @@ static int	read_and_split_line(char **row_line, char ***cols, int fd);
 static int	parse_map_points(t_ctx *ctx, int fd);
 // static unsigned int	hexa_index(char c);
 // static int	read_color(char *color, t_ctx *ctx);
-
-static int	read_and_split_line(char **row_line, char ***cols, int fd)
-{
-	*row_line = get_next_line(fd);
-	if (*row_line == NULL || **row_line == '\0')
-		return (ERROR);
-	*cols = ft_split(*row_line, ' ');
-	if (*cols == NULL)
-		return (ERROR);
-	return (SUCCESS);
-}
 
 int	parse_map(t_ctx *ctx, char *file_path)
 {
@@ -49,6 +38,17 @@ int	parse_map(t_ctx *ctx, char *file_path)
 	if (fd == -1)
 		return (perror("open"), ERROR);
 	if (parse_map_points(ctx, fd) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
+}
+
+static int	read_and_split_line(char **row_line, char ***cols, int fd)
+{
+	*row_line = get_next_line(fd);
+	if (*row_line == NULL || **row_line == '\0')
+		return (ERROR);
+	*cols = ft_split(*row_line, ' ');
+	if (*cols == NULL)
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -99,11 +99,13 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 		{
 			ctx->map.points[i].x = (double)col;
 			ctx->map.points[i].z = (double)row;
-			ctx->map.points[i].y = (double)ft_atoi(cols[col]);
+			ctx->map.points[i].y = (double)((-1) * ft_atoi(cols[col]));
 			i++;
 			col++;
 		}
 		row++;
+		if (read_and_split_line(&row_line, &cols, fd) == ERROR)
+			break;
 	}
 	return (SUCCESS);
 }

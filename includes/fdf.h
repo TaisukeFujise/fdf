@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 16:30:52 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:39:20 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define PI 3.14159265358979323846
 
-# define ABS(Value) (((Value) ^ ((Value) >> 31)) - ((Value) >> 31))
+// # define ABS(Value) (((Value) ^ ((Value) >> 31)) - ((Value) >> 31))
 
 # include <mlx.h>
 # include <fcntl.h>
@@ -109,6 +109,14 @@ typedef struct s_vec4
 	double	vec[4][1];
 }	t_vec4;
 
+typedef struct s_draw_param
+{
+	double	dx;
+	double	dy;
+	double	sx;
+	double	sy;
+	double	err;
+}	t_draw_param;
 /* <app>*/
 /* init.c */
 int	ctx_init(t_ctx *ctx);
@@ -159,4 +167,5 @@ int		count_cols_len(char **arr);
 /* test.c */
 void	print_mappoint(t_map map);
 void	print_map_spoint(t_map map);
+void	print_mapsize(t_map map);
 #endif

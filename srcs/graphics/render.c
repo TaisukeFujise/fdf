@@ -6,27 +6,27 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 16:19:30 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:14:42 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static int	clear_image(t_ctx *ctx);
-static int	update_map_projection(t_ctx *ctx);
-static int	draw_wireframe(t_ctx *ctx);
+static int	_clear_image(t_ctx *ctx);
+static int	_update_map_projection(t_ctx *ctx);
+static int	_draw_wireframe(t_ctx *ctx);
 
 int	render_next_frame(t_ctx *ctx)
 {
-	clear_image(ctx);
-	update_map_projection(ctx);
-	draw_wireframe(ctx);
+	_clear_image(ctx);
+	_update_map_projection(ctx);
+	_draw_wireframe(ctx);
 	mlx_put_image_to_window(ctx->mlx, ctx->win, ctx->img.img, 0, 0);
 	display_hud(ctx);
 	return (0);
 }
 
-static int	clear_image(t_ctx *ctx)
+static int	_clear_image(t_ctx *ctx)
 {
 	if (ctx != NULL)
 	{
@@ -35,7 +35,7 @@ static int	clear_image(t_ctx *ctx)
 	return (0);
 }
 
-static int	update_map_projection(t_ctx *ctx)
+static int	_update_map_projection(t_ctx *ctx)
 {
 	t_mat4	m_model;
 
@@ -45,7 +45,7 @@ static int	update_map_projection(t_ctx *ctx)
 	return (0);
 }
 
-static int	draw_wireframe(t_ctx *ctx)
+static int	_draw_wireframe(t_ctx *ctx)
 {
 	int	i;
 
@@ -53,9 +53,13 @@ static int	draw_wireframe(t_ctx *ctx)
 	while (i < ctx->map.width * ctx->map.height)
 	{
 		if (ctx->map.points[i].x + 1 < ctx->map.width)
+		{
 			draw_line(ctx, ctx->map.points[i], ctx->map.points[i + 1]);
-		if (ctx->map.points[i].y + 1 < ctx->map.height)
+		}
+		if (ctx->map.points[i].z + 1 < ctx->map.height)
+		{
 			draw_line(ctx, ctx->map.points[i], ctx->map.points[i + ctx->map.width]);
+		}
 		i++;
 	}
 	return (0);

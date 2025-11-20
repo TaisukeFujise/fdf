@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 23:40:54 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 15:31:13 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 16:46:56 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,6 @@ void	build_model_matrix(t_mat4 *m_model, t_ctx *ctx)
 	mat_rotate(&m_rotate, ctx);
 	mat_translate(&m_translate, ctx);
 	mat4_mul_3(m_model, &m_translate, &m_rotate, &m_scale);
-	// t_mat4	m_zoom;
-	// t_mat4	m_t_r;
-
-	// mat_identity(&m_zoom);
-	// mat_zoom(&m_zoom, ctx);
-	// mat_identity(&m_t_r);
-	// mat_t_r(&m_t_r, ctx);
-	// mat_identity(m_model);
-	// mat4_mul(m_model, &m_zoom, &m_t_r);
 }
 
 void	model_to_screen(t_mat4 *m_model, t_mappoint *point)

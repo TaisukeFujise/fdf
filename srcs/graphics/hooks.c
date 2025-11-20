@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 16:37:30 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 18:21:40 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ int	button_motion(int x, int y, t_ctx *ctx)
 	int	dy;
 	double	sensitivity;
 
-	sensitivity = 0.001;
+	sensitivity = 0.00005;
 	if (ctx->click.is_pressed == 1)
 	{
 		dx = x - ctx->click.last_x;
 		dy = y - ctx->click.last_y;
 		ctx->camera.rot_x += (double)dy * sensitivity;
-		ctx->camera.rot_y += (double)dx * sensitivity;
+		ctx->camera.rot_y -= (double)dx * sensitivity;
 		if (ctx->camera.mode == ISO)
 			ctx->camera.mode = PAR;
 	}
