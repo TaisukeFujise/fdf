@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 04:55:34 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 05:13:49 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define PI 3.14159265358979323846
+# define DBL_MAX 1.7976931348623158e+308
 
 # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
-# include<float.h>
 # include <stdio.h>
 # include "../libft/libft.h"
 
