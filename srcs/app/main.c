@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 09:29:34 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 00:07:08 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:36:06 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv)
 		return (free_ctx(&ctx), 1);
 	if (parse_map(&ctx, argv[1]) == ERROR)
 		return (free_ctx(&ctx), 1);
+	scale_init(&ctx);
 	set_hooks(&ctx);
 	mlx_loop(ctx.mlx);
 }

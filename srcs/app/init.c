@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:18:23 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 23:40:12 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:47:40 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,21 @@ static int	_z_buffer_init(t_ctx *ctx)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+void	scale_init(t_ctx *ctx)
+{
+	double	map_w;
+	double	map_h;
+	double	zoom;
+
+	map_w = ctx->map.width;
+	map_h = ctx->map.height;
+	if (map_w > map_h)
+		zoom = (WIDTH / map_w) * 0.4;
+	else
+		zoom = (HEIGHT / map_h) * 0.4;
+	while (zoom < 0)
+		zoom += 0.001;
+	ctx->camera.zoom = zoom;
 }

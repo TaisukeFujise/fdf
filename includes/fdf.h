@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 00:21:55 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:38:33 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_draw_param
 /* <app>*/
 /* init.c */
 int	ctx_init(t_ctx *ctx);
+void	scale_init(t_ctx *ctx);
 /* free.c */
 void	free_ctx(t_ctx *ctx);
 void	free_row_and_cols(char **row_line, char ***cols);
