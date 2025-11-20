@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 02:52:21 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:57:12 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static int	_draw_wireframe(t_ctx *ctx)
 		}
 		if (ctx->map.points[i].z + 1 < ctx->map.height)
 		{
-			draw_line(ctx, ctx->map.points[i], ctx->map.points[i + ctx->map.width]);
+			draw_line(ctx, ctx->map.points[i],
+				ctx->map.points[i + ctx->map.width]);
 		}
 		i++;
 	}

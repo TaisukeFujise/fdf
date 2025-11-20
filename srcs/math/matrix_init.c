@@ -6,20 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:34:45 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 02:14:18 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 04:00:09 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void	mat_identity(t_mat4 *mat)
-{
-	ft_bzero(mat, sizeof(t_mat4));
-	mat->mat[0][0] = 1;
-	mat->mat[1][1] = 1;
-	mat->mat[2][2] = 1;
-	mat->mat[3][3] = 1;
-}
 
 void	mat_scale(t_mat4 *m_scale, t_ctx *ctx)
 {
@@ -84,4 +75,3 @@ void	mat_translate(t_mat4 *m_translate, t_ctx *ctx)
 	m_translate->mat[0][3] = WIDTH / 2.0 + ctx->camera.offset_x;
 	m_translate->mat[1][3] = HEIGHT / 2.0 + ctx->camera.offset_y;
 }
-

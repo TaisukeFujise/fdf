@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:36:40 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 04:46:06 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,10 @@
 # define HEIGHT 1080
 # define PI 3.14159265358979323846
 
-// # define ABS(Value) (((Value) ^ ((Value) >> 31)) - ((Value) >> 31))
-
 # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
-# include <float.h>
+# include<float.h>
 # include <stdio.h>
 # include "../libft/libft.h"
 
@@ -114,56 +112,62 @@ typedef struct s_draw_param
 
 /* <app>*/
 /* init.c */
-int	ctx_init(t_ctx *ctx);
-void	scale_init(t_ctx *ctx);
+int				ctx_init(t_ctx *ctx);
+void			scale_init(t_ctx *ctx);
 /* free.c */
-void	free_ctx(t_ctx *ctx);
-void	free_row_and_cols(char **row_line, char ***cols);
+void			free_ctx(t_ctx *ctx);
+void			free_row_and_cols(char **row_line, char ***cols);
+void			free_split(char **arr);
 
 /* <graphics> */
 /* hooks.c */
-int	key_press(int keycode, t_ctx *ctx);
-int	button_press(int button, int x, int y, t_ctx *ctx);
-int	button_release(int button, int x, int y, t_ctx *ctx);
-int	button_motion(int x, int y, t_ctx *ctx);
-int	window_close(t_ctx *ctx);
+int				key_press(int keycode, t_ctx *ctx);
+int				button_press(int button, int x, int y, t_ctx *ctx);
+int				button_release(int button, int x, int y, t_ctx *ctx);
+int				button_motion(int x, int y, t_ctx *ctx);
+int				window_close(t_ctx *ctx);
 /* render.c */
-int	render_next_frame(t_ctx *ctx);
-/* colors.c */
-uint32_t	mix_color(uint32_t color1, uint32_t color2);
-uint32_t	lerp_mix_color(uint32_t color1, uint32_t color2, double step);
+int				render_next_frame(t_ctx *ctx);
+/* color_utils.c */
+int				create_trgb(int t, int r, int g, int b);
+unsigned char	get_t(int trgb);
+unsigned char	get_r(int trgb);
+unsigned char	get_g(int trgb);
+unsigned char	get_b(int trgb);
+/* color_mix.c */
+uint32_t		mix_color(uint32_t color1, uint32_t color2);
+uint32_t		lerp_mix_color(uint32_t color1, uint32_t color2, double step);
 /* draw.c */
-void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color);
-void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);
-int	display_hud(t_ctx *ctx);
+void			my_mlx_pixel_put(t_ctx *ctx, int *dot,
+					double z_curr, int color);
+void			draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);
+int				display_hud(t_ctx *ctx);
 /* setup_hooks.c */
-void	set_hooks(t_ctx *ctx);
-
+void			set_hooks(t_ctx *ctx);
 /* <math> */
 /* matrix_init.c */
-void	mat_identity(t_mat4 *mat);
-void	mat_scale(t_mat4 *m_scale, t_ctx *ctx);
-// void	mat_zoom(t_mat4 *m_zoom, t_ctx *ctx);
-void	mat_rotate(t_mat4 *m_rotate, t_ctx *ctx);
-void	mat_translate(t_mat4 *m_translate, t_ctx *ctx);
-// void	mat_t_r(t_mat4 *m_t_r, t_ctx *ctx);
+void			mat_scale(t_mat4 *m_scale, t_ctx *ctx);
+void			mat_rotate(t_mat4 *m_rotate, t_ctx *ctx);
+void			mat_translate(t_mat4 *m_translate, t_ctx *ctx);
 /* matrix_utils.c */
-void	mat_mul_vec4(t_mat4 *mat, t_vec4 *t_in, t_vec4 *t_out);
-void	mat4_mul(t_mat4 *dst, t_mat4 *a, t_mat4 *b);
-void	mat4_mul_3(t_mat4 *dst, t_mat4 *mat_a, t_mat4 *mat_b, t_mat4 *mat_c);
+void			mat_identity(t_mat4 *mat);
+void			mat_mul_vec4(t_mat4 *mat, t_vec4 *t_in, t_vec4 *t_out);
+void			mat4_mul(t_mat4 *dst, t_mat4 *a, t_mat4 *b);
+void			mat4_mul_3(t_mat4 *dst,
+					t_mat4 *mat_a, t_mat4 *mat_b, t_mat4 *mat_c);
 /* transform.c*/
-void	build_model_matrix(t_mat4 *m_model, t_ctx *ctx);
-void	project_map(t_mat4 *m_model, t_ctx *ctx);
-
+void			build_model_matrix(t_mat4 *m_model, t_ctx *ctx);
+void			project_map(t_mat4 *m_model, t_ctx *ctx);
 /* <io> */
 /* parse.c */
-int	parse_map(t_ctx *ctx, char *file_path);
-/* utils.c */
-int		count_cols_len(char **arr);
+int				parse_map(t_ctx *ctx, char *file_path);
+/* parse_utils.c */
+int				read_and_split_line(char **row_line, char ***cols, int fd);
+int				hexa_index(char c);
+int				check_hex_prefix(char **str);
+uint32_t		ft_atoui32_hex(char *str);
 
-/* <other> */
-/* test.c */
-void	print_mappoint(t_map map);
-void	print_map_spoint(t_map map);
-void	print_mapsize(t_map map);
+/* utils.c */
+int				count_cols_len(char **arr);
+double			abs_double(double value);
 #endif

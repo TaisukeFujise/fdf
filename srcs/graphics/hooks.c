@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 19:55:35 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:51:05 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	key_press(int keycode, t_ctx *ctx)
 			ctx->camera.mode++;
 	}
 	if (keycode == 65307)
-		return(window_close(ctx));
+		return (window_close(ctx));
 	return (0);
 }
 
@@ -52,7 +52,6 @@ int	button_press(int button, int x, int y, t_ctx *ctx)
 		else
 			ctx->camera.zoom *= 0.9;
 	}
-	// }
 	return (0);
 }
 
@@ -67,8 +66,8 @@ int	button_release(int button, int x, int y, t_ctx *ctx)
 
 int	button_motion(int x, int y, t_ctx *ctx)
 {
-	int	dx;
-	int	dy;
+	int		dx;
+	int		dy;
 	double	sensitivity;
 
 	sensitivity = 0.00005;
@@ -90,4 +89,3 @@ int	window_close(t_ctx *ctx)
 	exit(0);
 	return (0);
 }
-

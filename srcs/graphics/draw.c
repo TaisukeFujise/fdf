@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:29:56 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 04:12:47 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,15 @@ void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color)
 	{
 		index = dot[1] * WIDTH + dot[0];
 		if (ctx->z_buf[index] >= z_curr)
-			return ; 
-		offset = dot[1] * ctx->img.line_length + dot[0] * (ctx->img.bits_per_pixel / 8);
+			return ;
+		offset = dot[1] * ctx->img.line_length
+			+ dot[0] * (ctx->img.bits_per_pixel / 8);
 		dst = ctx->img.addr + offset;
 		if (dst == NULL)
 			return ;
 		ctx->z_buf[index] = z_curr;
 		*(unsigned int *)dst = color;
 	}
-}
-
-double	abs_double(double value)
-{
-	if (value < 0)
-		return (value * (-1.0));
-	return (value);
 }
 
 void	init_draw_param(t_draw_param *param, t_mappoint dot_0, t_mappoint dot_1)
@@ -58,7 +52,7 @@ void	init_draw_param(t_draw_param *param, t_mappoint dot_0, t_mappoint dot_1)
 
 void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 {
-	int	dot[2];
+	int				dot[2];
 	t_draw_param	param;
 	double			z_curr;
 
@@ -70,8 +64,10 @@ void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 		while (dot[0] != (int)dot_1.screen_x)
 		{
 			param.step += 1.0 / param.dx;
-			z_curr = (1 - param.step) * dot_0.screen_z + param.step * dot_1.screen_z;
-			my_mlx_pixel_put(ctx, dot, z_curr, lerp_mix_color(dot_0.color, dot_1.color, param.step));
+			z_curr = (1 - param.step) * dot_0.screen_z
+				+ param.step * dot_1.screen_z;
+			my_mlx_pixel_put(ctx, dot, z_curr,
+				lerp_mix_color(dot_0.color, dot_1.color, param.step));
 			dot[0] += param.sx;
 			param.err += param.dy / param.dx;
 			if (param.err >= 0.5)
@@ -86,8 +82,10 @@ void	draw_line(t_ctx *ctx, t_mappoint dot_0, t_mappoint dot_1)
 		while (dot[1] != (int)dot_1.screen_y)
 		{
 			param.step += 1.0 / param.dy;
-			z_curr = (1 - param.step) * dot_0.screen_z + param.step * dot_1.screen_z;
-			my_mlx_pixel_put(ctx, dot, z_curr, lerp_mix_color(dot_0.color, dot_1.color, param.step));
+			z_curr = (1 - param.step) * dot_0.screen_z
+				+ param.step * dot_1.screen_z;
+			my_mlx_pixel_put(ctx, dot, z_curr,
+				lerp_mix_color(dot_0.color, dot_1.color, param.step));
 			dot[1] += param.sy;
 			param.err += param.dx / param.dy;
 			if (param.err >= 0.5)
@@ -103,8 +101,6 @@ int	display_hud(t_ctx *ctx)
 {
 	char	*mode;
 	char	*zoom;
-	char	*rot_x;
-	char	*rot_y;
 
 	if (ctx->camera.mode == ISO)
 		mode = "Isometric";
@@ -121,19 +117,5 @@ int	display_hud(t_ctx *ctx)
 		return (ERROR);
 	mlx_string_put(ctx->mlx, ctx->win, 160, 70, 0xFFFFFF, zoom);
 	free(zoom);
-	rot_x = ft_itoa((int)ctx->camera.rot_x);
-	if (!rot_x)
-		return (ERROR);
-	mlx_string_put(ctx->mlx, ctx->win, 30, 90, 0xFFFFFF, "Rotate X : ");
-	mlx_string_put(ctx->mlx, ctx->win, 160, 90, 0xFFFFFF, rot_x);
-	mlx_string_put(ctx->mlx, ctx->win, 200, 90, 0xFFFFFF, "(rad)");
-	free(rot_x);
-	rot_y = ft_itoa((int)ctx->camera.rot_y);
-	if (!rot_y)
-		return (ERROR);
-	mlx_string_put(ctx->mlx, ctx->win, 30, 110, 0xFFFFFF, "Rotate Y : ");
-	mlx_string_put(ctx->mlx, ctx->win, 160, 110, 0xFFFFFF, rot_y);
-	mlx_string_put(ctx->mlx, ctx->win, 200, 110, 0xFFFFFF, "(rad)");
-	free(rot_y);
 	return (SUCCESS);
 }

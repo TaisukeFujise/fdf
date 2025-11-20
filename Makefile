@@ -6,7 +6,7 @@
 #    By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 12:42:52 by tafujise          #+#    #+#              #
-#    Updated: 2025/11/20 22:07:34 by tafujise         ###   ########.fr        #
+#    Updated: 2025/11/21 04:46:21 by tafujise         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,14 @@ SRCS:=app/main.c\
 	graphics/render.c\
 	graphics/draw.c\
 	graphics/set_hooks.c\
-	graphics/colors.c\
+	graphics/color_utils.c\
+	graphics/color_mix.c\
 	io/utils.c\
 	io/parse.c\
+	io/parse_utils.c\
 	math/matrix_init.c\
 	math/matrix_utils.c\
 	math/transform.c\
-	test.c\
 
 HEADDIR:=includes
 HEADERS:=$(HEADDIR)/fdf.h

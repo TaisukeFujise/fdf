@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   color_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 00:52:53 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 04:01:43 by tafujise         ###   ########.fr       */
+/*   Created: 2025/11/20 22:03:00 by tafujise          #+#    #+#             */
+/*   Updated: 2025/11/21 03:56:37 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../includes/fdf.h"
 
-int	count_cols_len(char **arr)
+int	create_trgb(int t, int r, int g, int b)
 {
-	int	i;
-
-	i = 0;
-	if (arr == NULL)
-		return (i);
-	while (arr[i] != NULL && ft_strcmp(arr[i], "\n") != 0)
-	{
-		i++;
-	}
-	return (i);
+	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-double	abs_double(double value)
+unsigned char	get_t(int trgb)
 {
-	if (value < 0)
-		return (value * (-1.0));
-	return (value);
+	return (((unsigned char *)&trgb)[3]);
+}
+
+unsigned char	get_r(int trgb)
+{
+	return (((unsigned char *)&trgb)[2]);
+}
+
+unsigned char	get_g(int trgb)
+{
+	return (((unsigned char *)&trgb)[1]);
+}
+
+unsigned char	get_b(int trgb)
+{
+	return (((unsigned char *)&trgb)[0]);
 }

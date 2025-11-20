@@ -6,11 +6,20 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:33:46 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 15:19:15 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 04:00:14 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/fdf.h"
+
+void	mat_identity(t_mat4 *mat)
+{
+	ft_bzero(mat, sizeof(t_mat4));
+	mat->mat[0][0] = 1;
+	mat->mat[1][1] = 1;
+	mat->mat[2][2] = 1;
+	mat->mat[3][3] = 1;
+}
 
 void	mat_mul_vec4(t_mat4 *mat, t_vec4 *t_in, t_vec4 *t_out)
 {

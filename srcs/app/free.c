@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:33:01 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:36:48 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 04:44:43 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,19 @@ void	free_row_and_cols(char **row_line, char ***cols)
 		free(*row_line);
 		*row_line = NULL;
 	}
+}
+
+void	free_split(char **arr)
+{
+	int	i;
+
+	if (arr == NULL)
+		return ;
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

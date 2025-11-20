@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 23:40:54 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 16:46:56 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 03:58:06 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	model_to_screen(t_mat4 *m_model, t_mappoint *point)
 	v_in.vec[1][0] = point->y;
 	v_in.vec[2][0] = point->z;
 	v_in.vec[3][0] = 1;
-
 	mat_mul_vec4(m_model, &v_in, &v_out);
 	point->screen_x = v_out.vec[0][0];
 	point->screen_y = v_out.vec[1][0];
