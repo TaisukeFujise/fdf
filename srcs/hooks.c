@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 10:47:11 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 12:03:46 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	key_press(int keycode, t_ctx *ctx)
 	t_mode	cur_mode;
 
 	if (keycode == 65361)
-		ctx->camera.offset_x -= 1;
+		ctx->camera.offset_x -= 5;
 	else if (keycode == 65362)
-		ctx->camera.offset_y -= 1;
+		ctx->camera.offset_y -= 5;
 	else if (keycode == 65363)
-		ctx->camera.offset_x += 1;
+		ctx->camera.offset_x += 5;
 	else if (keycode == 65364)
-		ctx->camera.offset_y += 1;
+		ctx->camera.offset_y += 5;
 	if (keycode == 32)
 	{
 		cur_mode = ctx->camera.mode;
@@ -47,6 +47,7 @@ int	button_press(int button, int x, int y, t_ctx *ctx)
 	}
 	if (button == 2)
 	{
+		printf("change lock\n");
 		ctx->camera.zoom.lock *= -1;
 	}
 	if (ctx->camera.zoom.lock == -1)
@@ -56,9 +57,9 @@ int	button_press(int button, int x, int y, t_ctx *ctx)
 			ctx->camera.zoom.cursor_x = x;
 			ctx->camera.zoom.cursor_y = y;
 			if (button == 4)
-				ctx->camera.zoom.ratio *= 1.5;
+				ctx->camera.zoom.ratio *= 1.1;
 			else
-				ctx->camera.zoom.ratio *= 0.7;
+				ctx->camera.zoom.ratio *= 0.9;
 		}
 	}
 	return (0);
@@ -79,7 +80,7 @@ int	button_motion(int x, int y, t_ctx *ctx)
 	int	dy;
 	double	sensitivity;
 
-	sensitivity = 0.1;
+	sensitivity = 0.05;
 	if (ctx->click.is_pressed == 1)
 	{
 		dx = x - ctx->click.last_x;

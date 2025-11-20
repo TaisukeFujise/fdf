@@ -78,18 +78,17 @@ void	mat_zoom(t_mat4 *m_zoom, t_ctx *ctx)
 	t_mat4	m_scale;
 	t_mat4	m_to_cursor;
 	t_mat4	m_from_cursor;
-	t_mat4	m_temp;
 
 	mat_identity(&m_scale);
 	mat_scale(&m_scale, ctx);
 	mat_identity(&m_to_cursor);
 	mat_identity(&m_from_cursor);
-	m_to_cursor.mat[0][3] = ctx->camera.zoom.cursor_x - WIDTH / 2;
-	m_to_cursor.mat[1][3] = ctx->camera.zoom.cursor_y - HEIGHT / 2;
-	m_from_cursor.mat[0][3] = -(ctx->camera.zoom.cursor_x - WIDTH / 2);
-	m_to_cursor.mat[1][3] = -(ctx->camera.zoom.cursor_y - HEIGHT / 2);
-	mat4_mul(&m_temp, &m_scale, &m_to_cursor);
-	mat4_mul(m_zoom, &m_from_cursor, &m_temp);
+	m_to_cursor.mat[0][3] = -ctx->camera.zoom.cursor_x;
+	m_to_cursor.mat[1][3] = -ctx->camera.zoom.cursor_y;
+	m_from_cursor.mat[0][3] = ctx->camera.zoom.cursor_x;
+	m_from_cursor.mat[1][3] = ctx->camera.zoom.cursor_y;
+	mat4_mul(&m_scale, &m_scale, &m_to_cursor);
+	mat4_mul(m_zoom, &m_from_cursor, &m_scale);
 }
 
 
@@ -98,6 +97,8 @@ void	mat_rotate(t_mat4 *m_rotate, t_ctx *ctx)
 {
 	t_mat4	m_rotate_x;
 	t_mat4	m_rotate_y;
+	t_mat4	m_to_center;
+	t_mat4	m_from_center;
 
 	mat_identity(m_rotate);
 	mat_identity(&m_rotate_x);
@@ -111,7 +112,15 @@ void	mat_rotate(t_mat4 *m_rotate, t_ctx *ctx)
 	m_rotate_y.mat[0][2] = sin(ctx->camera.rot_y);
 	m_rotate_y.mat[2][0] = -sin(ctx->camera.rot_y);
 	m_rotate_y.mat[2][2] = cos(ctx->camera.rot_y);
-	mat4_mul(m_rotate, &m_rotate_x, &m_rotate_y);
+	mat4_mul(m_rotate, &m_rotate_y, &m_rotate_x);
+	mat_identity(&m_to_center);
+	mat_identity(&m_from_center);
+	m_to_center.mat[0][3] -= ctx->map.width / 2;
+	m_to_center.mat[1][3] -= ctx->map.height / 2;
+	m_from_center.mat[0][3] += ctx->map.width / 2;
+	m_from_center.mat[1][3] += ctx->map.height /2;
+	mat4_mul(m_rotate, m_rotate, &m_to_center);
+	mat4_mul(m_rotate, &m_from_center, m_rotate);
 }
 
 void	mat_translate(t_mat4 *m_translate, t_ctx *ctx)
@@ -134,4 +143,3 @@ void	mat_t_r(t_mat4 *m_t_r, t_ctx *ctx)
 	mat_identity(m_t_r);
 	mat4_mul(m_t_r, &m_translate, &m_rotate);
 }
-

@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 10:46:15 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:49:02 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,10 @@ static int	update_map_projection(t_ctx *ctx)
 
 	build_model_matrix(&m_model, ctx);
 	project_map(&m_model, ctx);
-	print_map_spoint(ctx->map);
+	// print_map_spoint(ctx->map);
 	return (0);
 }
 
-/*
-スクリーン2次元座標を線分でimgの先頭アドレスimg.addrから、line_length * HEIGHTまで、
-my_mlx_pixel_put(&img, i, j, color);で埋める。
-*/
 static int	draw_wireframe(t_ctx *ctx)
 {
 	int	i;
@@ -74,11 +70,11 @@ static int	draw_wireframe(t_ctx *ctx)
 
 void	draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b)
 {
-	// my_mlx_pixel_put(ctx, a.screen_x, a.screen_y, 0xFFFFFF);
-	// my_mlx_pixel_put(ctx, b.screen_x, b.screen_y, 0xFFFFFF);
-	(void)ctx;
-	(void)a;
-	(void)b;
+	my_mlx_pixel_put(ctx, a.screen_x, a.screen_y, 0xFFFFFF);
+	my_mlx_pixel_put(ctx, b.screen_x, b.screen_y, 0xFFFFFF);
+	// (void)ctx;
+	// (void)a;
+	// (void)b;
 	// int		dx;
 	// int		dy;
 	// int		sx;
@@ -118,20 +114,26 @@ static int	display_hud(t_ctx *ctx)
 {
 	char	*mode;
 	char	*zoom;
+	char	*lock;
 
 	if (ctx->camera.mode == ISO)
-		mode = "projection mode: isometric";
+		mode = "projection mode : isometric";
 	else if (ctx->camera.mode == PAR)
-		mode = "projection mode: parallel";
+		mode = "projection mode : parallel";
 	else
 		mode = "projection mode : conic";
 	zoom = ft_strjoin("zoom : ", ft_itoa((int)ctx->camera.zoom.ratio));
 	if (zoom == NULL)
 		return (1);
+	if (ctx->camera.zoom.lock == 1)
+		lock = "zoom lock : lock";
+	else
+		lock = "zoom lock : unlock";
 	display_textbox(ctx);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 30, 0xFFFFFF, "==Parameters==");
 	mlx_string_put(ctx->mlx, ctx->win, 30, 50, 0xFFFFFF, mode);
 	mlx_string_put(ctx->mlx, ctx->win, 30, 70, 0xFFFFFF, zoom);
+	mlx_string_put(ctx->mlx, ctx->win, 30, 90, 0xFFFFFF, lock);
 	return (0);
 }
 
