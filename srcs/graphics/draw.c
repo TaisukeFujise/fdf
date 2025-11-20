@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:25:26 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 00:26:33 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:30:02 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ void	my_mlx_pixel_put(t_ctx *ctx, int *dot, double z_curr, int color)
 {
 	int		offset;
 	char	*dst;
+	int		index;
 
 	if ((0 <= dot[0] && dot[0] < WIDTH) && (0 <= dot[1] && dot[1] < HEIGHT))
 	{
-		if (ctx->z_buf[dot[1] * WIDTH + dot[0]] < z_curr)
+		index = dot[1] * WIDTH + dot[0];
+		if (ctx->z_buf[index] < z_curr)
 			return ; 
 		offset = dot[1] * ctx->img.line_length + dot[0] * (ctx->img.bits_per_pixel / 8);
 		dst = ctx->img.addr + offset;
 		if (dst == NULL)
 			return ;
+		ctx->z_buf[index] = z_curr;
 		*(unsigned int *)dst = color;
 	}
 }

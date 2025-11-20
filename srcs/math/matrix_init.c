@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:34:45 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 19:55:47 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:14:18 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	mat_rotate(t_mat4 *m_rotate, t_ctx *ctx)
 
 	mat_rotate_x(&m_rotate_x, ctx);
 	mat_rotate_y(&m_rotate_y, ctx);
-	mat4_mul(&m_rotate_raw, &m_rotate_y, &m_rotate_x);
+	mat4_mul(&m_rotate_raw, &m_rotate_x, &m_rotate_y);
 	mat_identity(&m_to_center);
 	m_to_center.mat[0][3] -= (double)(ctx->map.width - 1) / 2.0;
 	m_to_center.mat[2][3] -= (double)(ctx->map.height - 1) / 2.0;

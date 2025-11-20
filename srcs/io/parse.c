@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/20 21:47:01 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 02:23:24 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,16 @@ static int	parse_height_color(t_mappoint *point, char *col)
 
 int	hexa_index(char c)
 {
-	char			*hexa_str;
+	char			*hexa_str_b;
+	char			*hexa_str_s;
 	unsigned int	index;
 
-	hexa_str = "0123456789ABCDEF";
+	hexa_str_b = "0123456789ABCDEF";
+	hexa_str_s = "0123456789abcdef";
 	index = 0;
-	while (hexa_str[index])
+	while (index < 16)
 	{
-		if (c == hexa_str[index])
+		if (c == hexa_str_b[index] || c == hexa_str_s[index])
 			return (index);
 		index++;
 	}
