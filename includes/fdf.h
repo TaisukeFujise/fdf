@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 05:32:22 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 22:19:35 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <mlx.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdio.h>
 # include "../libft/libft.h"
 
 typedef enum e_mode
@@ -47,6 +48,7 @@ typedef struct s_click
 	int	is_pressed;
 	int	last_x;
 	int	last_y;
+	int	auto_camera;
 }	t_click;
 
 typedef struct s_mappoint
@@ -101,18 +103,22 @@ typedef struct s_vec4
 
 typedef struct s_draw_param
 {
+	int		x;
+	int		y;
 	double	dx;
 	double	dy;
 	double	sx;
 	double	sy;
 	double	err;
 	double	step;
+	double	z_curr;
 }	t_draw_param;
 
 /* <app>*/
 /* init.c */
 int				ctx_init(t_ctx *ctx);
 void			scale_init(t_ctx *ctx);
+void			camera_init(t_ctx *ctx);
 /* free.c */
 void			free_ctx(t_ctx *ctx);
 void			free_row_and_cols(char **row_line, char ***cols);
@@ -137,12 +143,18 @@ unsigned char	get_b(int trgb);
 uint32_t		mix_color(uint32_t color1, uint32_t color2);
 uint32_t		lerp_mix_color(uint32_t color1, uint32_t color2, double step);
 /* draw.c */
-void			my_mlx_pixel_put(t_ctx *ctx, int *dot,
-					double z_curr, int color);
 void			draw_line(t_ctx *ctx, t_mappoint a, t_mappoint b);
 int				display_hud(t_ctx *ctx);
+/* draw_utils.c */
+void			my_mlx_pixel_put(t_ctx *ctx, t_draw_param *param, int color);
+void			draw_line_dx_base(t_ctx *ctx, t_draw_param *param,
+					t_mappoint dot_0, t_mappoint dot_1);
+void			draw_line_dy_base(t_ctx *ctx, t_draw_param *param,
+					t_mappoint dot_0, t_mappoint dot_1);
 /* setup_hooks.c */
 void			set_hooks(t_ctx *ctx);
+/* reset.c */
+void			reset_camera_params(t_ctx *ctx);
 /* <math> */
 /* matrix_init.c */
 void			mat_scale(t_mat4 *m_scale, t_ctx *ctx);

@@ -6,14 +6,13 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:18:23 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:45:03 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:48:38 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static int	_env_init(t_ctx *ctx);
-static void	_camera_init(t_ctx *ctx);
 static int	_z_buffer_init(t_ctx *ctx);
 
 int	ctx_init(t_ctx *ctx)
@@ -21,7 +20,7 @@ int	ctx_init(t_ctx *ctx)
 	ft_bzero(ctx, sizeof(t_ctx));
 	if (_env_init(ctx) == ERROR)
 		return (ERROR);
-	_camera_init(ctx);
+	camera_init(ctx);
 	if (_z_buffer_init(ctx) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
@@ -45,12 +44,13 @@ static int	_env_init(t_ctx *ctx)
 	return (SUCCESS);
 }
 
-static void	_camera_init(t_ctx *ctx)
+void	camera_init(t_ctx *ctx)
 {
 	ctx->camera.zoom = 10.0;
 	ctx->camera.mode = ISO;
 	ctx->camera.rot_x = -atan(1 / sqrt(2));
 	ctx->camera.rot_y = PI / 4;
+	ctx->click.auto_camera = -1;
 }
 
 static int	_z_buffer_init(t_ctx *ctx)

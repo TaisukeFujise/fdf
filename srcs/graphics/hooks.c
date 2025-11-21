@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:51:05 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 16:39:54 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	key_press(int keycode, t_ctx *ctx)
 	t_mode	cur_mode;
 
 	if (keycode == 65361)
-		ctx->camera.offset_x -= 5;
+		ctx->camera.offset_x -= 10;
 	else if (keycode == 65362)
-		ctx->camera.offset_y -= 5;
+		ctx->camera.offset_y -= 10;
 	else if (keycode == 65363)
-		ctx->camera.offset_x += 5;
+		ctx->camera.offset_x += 10;
 	else if (keycode == 65364)
-		ctx->camera.offset_y += 5;
+		ctx->camera.offset_y += 10;
 	if (keycode == 32)
 	{
 		cur_mode = ctx->camera.mode;
@@ -32,6 +32,10 @@ int	key_press(int keycode, t_ctx *ctx)
 		else
 			ctx->camera.mode++;
 	}
+	if (keycode == 97)
+		ctx->click.auto_camera *= -1;
+	if (keycode == 114)
+		reset_camera_params(ctx);
 	if (keycode == 65307)
 		return (window_close(ctx));
 	return (0);

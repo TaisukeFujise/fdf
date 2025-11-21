@@ -6,13 +6,14 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 05:24:12 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 22:49:16 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static int	parse_map_size(t_ctx *ctx, int fd);
+static int	assign_map_point(t_ctx *ctx, char **cols, int row, int index);
 static int	parse_map_points(t_ctx *ctx, int fd);
 static int	parse_height_color(t_mappoint *point, char *col);
 
@@ -66,31 +67,41 @@ static int	parse_map_size(t_ctx *ctx, int fd)
 	return (free_row_and_cols(&row_line, &cols), gnl_cleanup(), SUCCESS);
 }
 
+static int	assign_map_point(t_ctx *ctx, char **cols, int row, int index)
+{
+	int	col;
+
+	col = 0;
+	while (col < ctx->map.width && cols != NULL)
+	{
+		ctx->map.points[index].x = (double)col;
+		ctx->map.points[index].z = (double)row;
+		if (parse_height_color(&ctx->map.points[index], cols[col]) == ERROR)
+			return (ERROR);
+		index++;
+		col++;
+	}
+	return (SUCCESS);
+}
+
 static int	parse_map_points(t_ctx *ctx, int fd)
 {
 	char	*row_line;
 	char	**cols;
-	int		col;
 	int		row;
-	int		i;
+	int		index;
 
 	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 		return (perror("Error"), free_row_and_cols(&row_line, &cols),
 			gnl_cleanup(), ERROR);
 	row = 0;
-	i = 0;
+	index = 0;
 	while (row < ctx->map.height && row_line != NULL)
 	{
-		col = 0;
-		while (col < ctx->map.width && cols != NULL)
-		{
-			ctx->map.points[i].x = (double)col;
-			ctx->map.points[i].z = (double)row;
-			if (parse_height_color(&ctx->map.points[i], cols[col]) == ERROR)
-				return (perror("Error"), free_row_and_cols(&row_line, &cols), gnl_cleanup(), ERROR);
-			i++;
-			col++;
-		}
+		if (assign_map_point(ctx, cols, row, index) == ERROR)
+			return (perror("Error"), free_row_and_cols(&row_line, &cols),
+				gnl_cleanup(), ERROR);
+		index += ctx->map.width;
 		row++;
 		free_row_and_cols(&row_line, &cols);
 		if (read_and_split_line(&row_line, &cols, fd) == ERROR)

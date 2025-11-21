@@ -6,7 +6,7 @@
 #    By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/30 12:42:52 by tafujise          #+#    #+#              #
-#    Updated: 2025/11/21 04:46:21 by tafujise         ###   ########.fr        #
+#    Updated: 2025/11/21 22:17:47 by tafujise         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,11 @@ SRCDIR:=srcs
 SRCS:=app/main.c\
 	app/free.c\
 	app/init.c\
+	graphics/reset.c\
 	graphics/hooks.c\
 	graphics/render.c\
 	graphics/draw.c\
+	graphics/draw_utils.c\
 	graphics/set_hooks.c\
 	graphics/color_utils.c\
 	graphics/color_mix.c\

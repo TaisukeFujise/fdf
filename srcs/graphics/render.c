@@ -6,19 +6,21 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:57:12 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/21 23:46:13 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
 static int	_clear_image(t_ctx *ctx);
+static int	_update_auto_camera_camera(t_ctx *ctx);
 static int	_update_map_projection(t_ctx *ctx);
 static int	_draw_wireframe(t_ctx *ctx);
 
 int	render_next_frame(t_ctx *ctx)
 {
 	_clear_image(ctx);
+	_update_auto_camera_camera(ctx);
 	_update_map_projection(ctx);
 	_draw_wireframe(ctx);
 	mlx_put_image_to_window(ctx->mlx, ctx->win, ctx->img.img, 0, 0);
@@ -39,6 +41,16 @@ static int	_clear_image(t_ctx *ctx)
 			ctx->z_buf[i] = -DBL_MAX;
 			i++;
 		}
+	}
+	return (0);
+}
+
+static int	_update_auto_camera_camera(t_ctx *ctx)
+{
+	if (ctx->click.auto_camera == 1)
+	{
+		ctx->camera.rot_y += 0.01;
+		ctx->camera.zoom += 0.01;
 	}
 	return (0);
 }

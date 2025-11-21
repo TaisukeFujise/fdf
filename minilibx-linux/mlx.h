@@ -125,8 +125,8 @@ int	mlx_destroy_display(void *mlx_ptr);
 int	mlx_hook(void *win_ptr, int x_event, int x_mask,
                  int (*funct)(), void *param);
 
-int	mlx_do_key_autorepeatoff(void *mlx_ptr);
-int	mlx_do_key_autorepeaton(void *mlx_ptr);
+int	mlx_do_key_auto_camerarepeatoff(void *mlx_ptr);
+int	mlx_do_key_auto_camerarepeaton(void *mlx_ptr);
 int	mlx_do_sync(void *mlx_ptr);
 
 int	mlx_mouse_get_pos(void *mlx_ptr, void *win_ptr, int *x, int *y);
