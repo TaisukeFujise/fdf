@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 00:52:53 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 16:40:44 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:21 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../includes/fdf.h"
 
 int	count_cols_len(char **arr)
 {

@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:41:58 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 16:39:54 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:03 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../includes/fdf.h"
 
 int	key_press(int keycode, t_ctx *ctx)
 {

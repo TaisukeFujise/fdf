@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 00:06:11 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 23:46:13 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:07 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../../includes/fdf.h"
 
 static int	_clear_image(t_ctx *ctx);
 static int	_update_auto_camera_camera(t_ctx *ctx);

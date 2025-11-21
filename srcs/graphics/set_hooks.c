@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 23:21:37 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 03:52:17 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:12 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../../includes/fdf.h"
 
 void	set_hooks(t_ctx *ctx)
 {

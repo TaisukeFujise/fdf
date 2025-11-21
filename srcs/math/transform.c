@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 23:40:54 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 15:57:15 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:31 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../../includes/fdf.h"
 
 void	build_model_matrix(t_mat4 *m_model, t_ctx *ctx)
 {

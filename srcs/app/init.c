@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:18:23 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 16:48:38 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:26:50 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../includes/fdf.h"
 
 static int	_env_init(t_ctx *ctx);
 static int	_z_buffer_init(t_ctx *ctx);

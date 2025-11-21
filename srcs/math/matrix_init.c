@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 14:34:45 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 04:00:09 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:25 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../../includes/fdf.h"
 
 void	mat_scale(t_mat4 *m_scale, t_ctx *ctx)
 {

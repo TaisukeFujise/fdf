@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 22:33:01 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 04:44:43 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:26:44 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../includes/fdf.h"
 
 void	free_ctx(t_ctx *ctx)
 {

@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 09:29:34 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 00:36:06 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:26:53 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "../../includes/fdf.h"
 
 int	main(int argc, char **argv)
 {

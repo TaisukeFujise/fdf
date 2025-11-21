@@ -6,11 +6,11 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 22:49:16 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 07:27:18 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../includes/fdf.h"
 
 static int	parse_map_size(t_ctx *ctx, int fd);
 static int	assign_map_point(t_ctx *ctx, char **cols, int row, int index);
