@@ -1,4 +1,5 @@
-# fdf　(fil de fer: wireframe model)
+# fdf　
+(fil de fer: wireframe model)
 
 `.fdf` マップを読み込み、行列変換と投影を通してワイヤーフレーム地形を描画するプログラム。
 
