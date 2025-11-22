@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 01:08:47 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/22 07:27:18 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 20:08:12 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	parse_map(t_ctx *ctx, char *file_path)
 {
 	int		fd;
 
+	if (check_file_path(file_path) == ERROR)
+		return (perror("Found wrong file format"), ERROR);
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (perror("open"), ERROR);
@@ -46,8 +48,9 @@ static int	parse_map_size(t_ctx *ctx, int fd)
 	char	*row_line;
 	char	**cols;
 
-	width = 0;
-	height = 0;
+	init_width_and_height(&width, &height);
+	row_line = NULL;
+	cols = NULL;
 	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 		return (perror("read/malloc"), free_row_and_cols(&row_line, &cols),
 			gnl_cleanup(), ERROR);
@@ -91,6 +94,8 @@ static int	parse_map_points(t_ctx *ctx, int fd)
 	int		row;
 	int		index;
 
+	row_line = NULL;
+	cols = NULL;
 	if (read_and_split_line(&row_line, &cols, fd) == ERROR)
 		return (perror("Error"), free_row_and_cols(&row_line, &cols),
 			gnl_cleanup(), ERROR);

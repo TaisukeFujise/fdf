@@ -6,7 +6,7 @@
 /*   By: tafujise <tafujise@student.42.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 08:53:16 by tafujise          #+#    #+#             */
-/*   Updated: 2025/11/21 22:19:35 by tafujise         ###   ########.fr       */
+/*   Updated: 2025/11/22 20:09:09 by tafujise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,9 @@ int				hexa_index(char c);
 int				check_hex_prefix(char **str);
 uint32_t		ft_atoui32_hex(char *str);
 void			gnl_cleanup(void);
-
 /* utils.c */
 int				count_cols_len(char **arr);
 double			abs_double(double value);
+int				check_file_path(char *file_path);
+void			init_width_and_height(int *width, int *height);
 #endif
